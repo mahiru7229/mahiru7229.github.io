@@ -1,0 +1,124 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Bahnschrift, sans-serif;
+}
+/* css !important */
+.home-row {
+    float: left;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+
+.news-home-title{
+    font-size: 24px;
+    text-transform: uppercase;
+    position:relative;
+
+
+}
+
+.news-home-title::before{
+    content: "";
+    width: 65px;
+    border-top: 3px solid #c70101;
+    position: absolute;
+    top:-16px;
+}
+
+.content-container{
+    max-width: 1428px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.news-curated{
+    padding : 30px 0 0;
+}
+
+
+/* main */
+#main{
+
+}
+
+#header{
+
+}
+/* navigation bar */
+#nav{
+    width: 100%;
+    height: 75px;
+    background-color: #c70101;
+    text-transform: uppercase;
+    overflow: hidden;
+    box-shadow: 0 0 5px 0 rgb(0,0,0);
+}
+.image-container{
+    max-width: 110px;
+}
+#nav li{
+    list-style-type: none;
+    margin: 0 6px;
+    position: relative;
+    cursor: pointer;
+    /* transition: all 4s; */
+}
+.search-btn{
+    position: relative;
+}
+
+#nav li::after, #nav .search-btn::after{
+    content: "";
+    height: 2px;
+    background-color: rgb(255,255,255);
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 8px;
+    transition: all .5s;
+    opacity: 0;
+}
+#nav li:hover::after, #nav .search-btn:hover::after{
+    opacity: 1;
+}
+#nav img{
+    width: 60px;
+    height: 60px;
+    margin: 7px 21px;
+}
+
+#nav li , #nav img{
+    float: left;
+}
+
+#nav li a{
+    text-decoration: none;
+    color: #fff;
+    line-height: 75px;
+}
+
+.search-btn{
+    float:right;
+    margin: 0 16px 0 0;
+    padding: 28px 6px;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.search-btn span{
+    margin: 0 0 0 7px;
+}
+
+
+
+#content{
+
+}
+
+#footer{
+
+}
