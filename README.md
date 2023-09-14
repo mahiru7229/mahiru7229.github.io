@@ -1,1 +1,0 @@
-# mahiru7229.github.io
