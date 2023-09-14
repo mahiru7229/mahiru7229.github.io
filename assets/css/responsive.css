@@ -1,33 +1,41 @@
 /* PC */
 @media (min-width:1024px) {
-    
+   
 }
 
-/* Tablet */
-@media (min-width:740px) and (max-width:1023px) {
-    .row-two{
-        width: 0%;
-    }
-    #card .name-user{
-        font-size: 20px;
-    }
-    #card .name-nickname{
-        font-size: 15px;
-        color: #333;
-    }
-    #card .user-infomation{
-        font-size: 15px;
-    }
-    #card .card-container{
-        overflow: scroll;
-    }
+/* Tablet
+@media (min-width:1300px) and (max-width:1350px) {
+    #card{
+        width: 60vw !important;
+        height: 65vh !important;
+   }
+   .user-talent li{
+        margin-left: 25px !important;
+   }
     
-    #card .user-talent{
-        display:block;
-    }
+   
+} */
+/* Tablet but smaller*/
+@media (min-width:890px) and (max-width:1350px) {
+    #card{
+        width: 50vw !important;
+        height: 65vh !important;
+   }
+   .user-talent li{
+        margin-left: 25px !important;
+   }
+    
+   
 }
+
 
 /* Mobile */
-@media (max-width:740px) {
-   
+@media (max-width:890px) {
+   #card{
+        width: 75vw !important;
+        height: 75vh !important;
+   }
+   .user-talent li{
+        margin-left: 25px !important;
+   }
 }
