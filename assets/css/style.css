@@ -1,0 +1,159 @@
+/* import font */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand');
+
+
+*{
+    padding: 0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: Quicksand, sans-serif;
+}
+
+.title{
+    padding: 4px 8px;
+    font-weight: 1000px;
+}
+
+.decscription{
+    font-weight: 250px;
+    padding: 4px 8px;
+    color: #000;
+}
+
+.row-two{
+    width: 50%;
+}
+
+
+.row-two:first-child{
+    border:none !important;
+}
+
+
+
+#main{
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+#main .bg-img{
+    width: 100%;
+    height:100%;
+    background: url('../img/bg/user_bg.jpg')  top center / cover no-repeat;
+    filter: blur(1px);
+}
+
+
+
+#card{
+    position: absolute;
+    text-align: center;
+    width: 30vw;
+    height: 75vh;
+    top:50%;
+    bottom:50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 15px 0 #333;
+}
+#card .card-container{
+    height: 100%;
+}
+#card .avatar{
+    margin-top: 25px;
+    width: 128px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+}
+
+#card .name-user{
+    font-size: 25px;
+}
+
+#card .name-nickname{
+    font-size: 15px;
+    color: #333;
+
+}
+
+#card .user-infomation{
+    margin-top: 15px;
+}
+
+
+#card .user-talent{
+    margin-top: 25px;
+    display: flex;
+    position: relative;
+    justify-content: space-around;
+}
+
+#card .user-talent .row-two{
+    border-left: 2px solid #333;
+}
+
+#card  .content-title{
+    font-weight: normal;
+}
+
+.user-talent li{
+    list-style-type: none;
+    display: flex;
+    text-align: left;
+    margin-left: 40px;
+    align-items: center;
+    line-height: 28px;
+    gap:10px;
+}
+.user-talent li a{
+    text-decoration: none;
+    color: #000;
+    position: relative;
+}
+
+.user-talent li a::after{
+    content: "";
+    width: 0%;
+    border-bottom: 2px solid rgb(200, 44, 200);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transition: all .5s;
+}
+
+.user-talent li:hover a::after{
+    width: 100%;
+}
+
+
+
+
+.user-talent img{
+    width: 25px;
+    height: 25px;
+    display: flex;
+}
+
+#footer{
+    bottom:10px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute;
+}
+#footer .contact{
+    font-size: 27px;
+}
+#footer .contact a{
+    color: #000;
+}
+
+#footer .contact a{
+    transition: color .25s;
+}
+
+#footer .contact a:hover{
+    color: #7e7e7e;
+}

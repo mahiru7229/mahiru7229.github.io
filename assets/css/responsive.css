@@ -1,0 +1,33 @@
+/* PC */
+@media (min-width:1024px) {
+    
+}
+
+/* Tablet */
+@media (min-width:740px) and (max-width:1023px) {
+    .row-two{
+        width: 0%;
+    }
+    #card .name-user{
+        font-size: 20px;
+    }
+    #card .name-nickname{
+        font-size: 15px;
+        color: #333;
+    }
+    #card .user-infomation{
+        font-size: 15px;
+    }
+    #card .card-container{
+        overflow: scroll;
+    }
+    
+    #card .user-talent{
+        display:block;
+    }
+}
+
+/* Mobile */
+@media (max-width:740px) {
+   
+}
