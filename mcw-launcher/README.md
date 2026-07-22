@@ -1,53 +1,81 @@
 # MCW Launcher Download Page
 
-Trang tải tĩnh dành cho MCW Launcher, tối ưu để chạy trực tiếp trên GitHub Pages.
+Trang tải tĩnh chính thức của MCW Launcher, đặt tại thư mục `mcw-launcher/` trong repository `mahiru7229.github.io`.
+
+## Kênh tải xuống
+
+Trang hiển thị hai lựa chọn riêng biệt:
+
+- **Release / Stable** — lựa chọn chính cho người dùng thông thường.
+- **Beta / Tester Program** — nằm ngay dưới nút Release để người muốn thử tính năng mới có thể tải riêng.
+
+Dữ liệu dự phòng hiện tại:
+
+```text
+Release: v0.5.1
+Beta:    v0.6.0-beta.5
+```
+
+## Cập nhật tự động từ GitHub Releases
+
+`script.js` gọi:
+
+```text
+https://api.github.com/repos/mahiru7229/mcw-launcher/releases?per_page=30
+```
+
+Sau đó trang tự chọn:
+
+1. Release mới nhất có `prerelease = false` và asset `*-windows-x64.zip`.
+2. Beta mới nhất có `prerelease = true`, tag chứa `beta` và asset `*-windows-x64.zip`.
+
+Nếu GitHub API tạm lỗi hoặc bị giới hạn request, trang dùng `FALLBACK_STABLE` và `FALLBACK_BETA` trong `script.js`.
 
 ## Cấu trúc
 
 ```text
-mcw-launcher-download-page/
+mcw-launcher/
 ├── index.html
 ├── styles.css
 ├── script.js
+├── README.md
 ├── .nojekyll
 └── assets/
     ├── favicon.svg
     └── mcw-logo.png
 ```
 
-## Đưa lên GitHub Pages ở một mục riêng
+Patch cập nhật này chỉ thay đổi:
 
-### Cách 1 — repository riêng
+```text
+index.html
+styles.css
+script.js
+README.md
+```
 
-1. Tạo repository mới, ví dụ `mcw-launcher-web`.
-2. Đưa toàn bộ file trong thư mục này lên root của repository.
-3. Vào **Settings → Pages**.
-4. Chọn **Deploy from a branch**.
-5. Chọn nhánh `main`, thư mục `/(root)`, rồi **Save**.
-6. Trang sẽ có dạng `https://mahiru7229.github.io/mcw-launcher-web/`.
+Các asset hiện có được giữ nguyên.
 
-### Cách 2 — thư mục trong repository `mahiru7229.github.io`
+## Chạy thử cục bộ
 
-1. Tạo thư mục, ví dụ `mcw-launcher/`.
-2. Copy toàn bộ file vào thư mục đó.
-3. Commit và push lên repository Pages.
-4. Truy cập `https://mahiru7229.github.io/mcw-launcher/`.
-
-Tất cả đường dẫn asset đều là đường dẫn tương đối nên hoạt động bình thường trong subfolder.
-
-## Cập nhật bản tải
-
-`script.js` tự gọi GitHub Releases API và chọn release mới nhất có file ZIP Windows x64. Nếu API tạm lỗi hoặc bị giới hạn, trang dùng liên kết dự phòng tới `v0.5.1-rc.1`.
-
-Để đổi bản dự phòng, sửa object `FALLBACK_RELEASE` ở đầu `script.js`.
-
-## Chạy thử trên máy
-
-Có thể mở trực tiếp `index.html`, nhưng để kiểm tra giống môi trường web hơn:
+Từ repository `mahiru7229.github.io`:
 
 ```powershell
-cd mcw-launcher-download-page
+cd mcw-launcher
 python -m http.server 8000
 ```
 
-Sau đó mở `http://localhost:8000`.
+Mở:
+
+```text
+http://localhost:8000
+```
+
+## Kiểm tra trước khi push
+
+- Nút Release tải asset Stable.
+- Nút Beta tải asset Pre-release.
+- Link ghi chú mở đúng tag.
+- Mobile menu hoạt động.
+- Light/Dark theme hoạt động.
+- Không có nội dung cũ như `v0.5.1-rc.1` hoặc gọi Stable là Beta.
