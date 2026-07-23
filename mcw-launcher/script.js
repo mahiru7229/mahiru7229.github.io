@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-<<<<<<< HEAD
+
+
 const REPOSITORY = "mahiru7229/mcw-launcher";
 const GITHUB_API = `https://api.github.com/repos/${REPOSITORY}/releases`;
 const GITHUB_RELEASES = `https://github.com/${REPOSITORY}/releases`;
@@ -579,7 +580,7 @@ function initialize() {
   renderEverything();
   loadReleases();
 }
-=======
+
   const REPO = "mahiru7229/mcw-launcher";
   const RELEASES_API = `https://api.github.com/repos/${REPO}/releases?per_page=10`;
   const FALLBACK_RELEASE = {
@@ -652,7 +653,82 @@ function initialize() {
       console.info("Không thể tải metadata release mới nhất; đang dùng liên kết dự phòng.", error);
     }
   }
->>>>>>> parent of 725e9e7 (updating web)
+
+
+
+  const REPO = "mahiru7229/mcw-launcher";
+  const RELEASES_API = `https://api.github.com/repos/${REPO}/releases?per_page=10`;
+  const FALLBACK_RELEASE = {
+    name: "MCW Launcher v0.5.1 RC 1",
+    tag_name: "v0.5.1-rc.1",
+    html_url: `https://github.com/${REPO}/releases/tag/v0.5.1-rc.1`,
+    prerelease: true,
+    published_at: "2026-07-16T11:46:00Z",
+    assets: [{
+      name: "MCW-Launcher-v0.5.1-rc.1-windows-x64.zip",
+      browser_download_url: `https://github.com/${REPO}/releases/download/v0.5.1-rc.1/MCW-Launcher-v0.5.1-rc.1-windows-x64.zip`,
+      size: 0
+    }]
+  };
+
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  function formatBytes(bytes) {
+    if (!Number.isFinite(bytes) || bytes <= 0) return "Gói ZIP Windows x64";
+    const units = ["B", "KB", "MB", "GB"];
+    const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+    const value = bytes / Math.pow(1024, index);
+    return `${value.toFixed(index >= 2 ? 1 : 0)} ${units[index]} · Windows x64`;
+  }
+
+  function findWindowsAsset(release) {
+    const assets = Array.isArray(release.assets) ? release.assets : [];
+    return assets.find(asset => /windows.*x64.*\.zip$/i.test(asset.name) && !/sha256/i.test(asset.name))
+      || assets.find(asset => /\.zip$/i.test(asset.name) && !/sha256/i.test(asset.name));
+  }
+
+  function updateRelease(release) {
+    const asset = findWindowsAsset(release) || findWindowsAsset(FALLBACK_RELEASE);
+    if (!asset) return;
+
+    const title = release.name || release.tag_name || FALLBACK_RELEASE.name;
+    const releaseUrl = release.html_url || FALLBACK_RELEASE.html_url;
+    const published = release.published_at ? new Date(release.published_at) : new Date(FALLBACK_RELEASE.published_at);
+    const dateText = Number.isNaN(published.getTime())
+      ? "Cập nhật gần đây"
+      : `Cập nhật ${new Intl.DateTimeFormat("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" }).format(published)}`;
+
+    $("#download-version").textContent = title;
+    $("#release-size").textContent = formatBytes(asset.size);
+    $("#release-date").textContent = dateText;
+    $("#release-state").textContent = release.prerelease ? "Bản thử nghiệm mới nhất cho Windows x64" : "Bản ổn định mới nhất cho Windows x64";
+    $("#cta-release-text").textContent = `Bản hiện tại: ${title} cho Windows x64.`;
+
+    [$("#download-button"), $("#download-button-bottom")].forEach(link => {
+      link.href = asset.browser_download_url;
+      link.setAttribute("data-release", release.tag_name || "latest");
+    });
+
+    $("#release-link").href = releaseUrl;
+  }
+
+  async function loadLatestRelease() {
+    updateRelease(FALLBACK_RELEASE);
+    try {
+      const response = await fetch(RELEASES_API, {
+        headers: { Accept: "application/vnd.github+json" },
+        cache: "no-store"
+      });
+      if (!response.ok) throw new Error(`GitHub API: ${response.status}`);
+      const releases = await response.json();
+      const release = releases.find(item => !item.draft && findWindowsAsset(item));
+      if (release) updateRelease(release);
+    } catch (error) {
+      console.info("Không thể tải metadata release mới nhất; đang dùng liên kết dự phòng.", error);
+    }
+  }
+
 
   function setupTheme() {
     const root = document.documentElement;
