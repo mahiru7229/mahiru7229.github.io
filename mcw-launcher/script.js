@@ -4,7 +4,7 @@
   const REPO = "mahiru7229/mcw-launcher";
   const API = `https://api.github.com/repos/${REPO}/releases?per_page=100`;
   const RELEASES_URL = `https://github.com/${REPO}/releases`;
-  const CACHE_KEY = "mcw-releases-v3";
+  const CACHE_KEY = "mcw-releases-v4";
   const CACHE_TTL = 10 * 60 * 1000;
 
   const state = {
@@ -295,7 +295,7 @@
   function applyReleaseData(releases) {
     state.releases = releases;
     state.stable = releases.filter((r) => !r.prerelease);
-    state.beta = releases.filter((r) => r.prerelease);
+    state.beta = releases.filter((r) => r.prerelease && isBetaOrRc(r));
     renderAllReleaseMeta();
     renderReleaseList();
 
@@ -313,7 +313,10 @@
     const betaTag = beta?.tag_name || "No preview";
 
     setText("hero-stable-version", stable ? `Stable ${stableTag}` : "Stable channel");
-    setText("hero-download-version", stable ? `${stableTag} · Windows x64` : "Windows x64");
+    const stableWindows = stable ? platformAsset(stable, "windows") : null;
+    const stableLinux = stable ? platformAsset(stable, "linux") : null;
+    setText("hero-windows-version", stableWindows ? `Windows x64 · ${stableTag}` : "Windows x64 · archive");
+    setText("hero-linux-version", stableLinux ? `Linux x64 · ${stableTag}` : "Linux x64 · awaiting build");
     setText("float-stable-version", stableTag);
     setText("float-beta-version", betaTag);
     setText("quick-stable-version", stableTag);
@@ -325,38 +328,46 @@
     setText("sidebar-stable-count", String(state.stable.length));
     setText("sidebar-beta-count", String(state.beta.length));
 
-    const stableAsset = stable ? preferredAsset(stable) : null;
-    const heroDownload = byId("hero-stable-download");
-    const navDownload = byId("nav-download");
+    configureHeroDownload("hero-windows-download", stableWindows, "Windows");
+    configureHeroDownload("hero-linux-download", stableLinux, "Linux");
 
-    if (stableAsset?.browser_download_url) {
-      [heroDownload, navDownload].forEach((link) => {
-        if (!link) return;
-        link.href = stableAsset.browser_download_url;
-        link.target = "_blank";
-        link.rel = "noreferrer";
-      });
-    } else {
-      [heroDownload, navDownload].forEach((link) => {
-        if (!link) return;
-        link.href = "#download/release";
-        link.removeAttribute("target");
-        link.removeAttribute("rel");
-      });
+    const navDownload = byId("nav-download");
+    if (navDownload) {
+      navDownload.href = "#download/release";
+      navDownload.removeAttribute("target");
+      navDownload.removeAttribute("rel");
     }
   }
 
+  function configureHeroDownload(id, asset, platformLabel) {
+    const link = byId(id);
+    if (!link) return;
+    if (asset?.browser_download_url) {
+      link.href = asset.browser_download_url;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.setAttribute("aria-label", `Tải MCW Launcher Stable cho ${platformLabel}`);
+      return;
+    }
+    link.href = "#download/release";
+    link.removeAttribute("target");
+    link.removeAttribute("rel");
+    link.setAttribute("aria-label", `Xem các bản phát hành cho ${platformLabel}`);
+  }
+
   function setDownloadFallbacks() {
-    const hero = byId("hero-stable-download");
+    const heroWindows = byId("hero-windows-download");
+    const heroLinux = byId("hero-linux-download");
     const nav = byId("nav-download");
-    [hero, nav].forEach((link) => {
+    [heroWindows, heroLinux, nav].forEach((link) => {
       if (!link) return;
       link.href = RELEASES_URL;
       link.target = "_blank";
       link.rel = "noreferrer";
     });
     setText("hero-stable-version", "View GitHub releases");
-    setText("hero-download-version", "GitHub release archive");
+    setText("hero-windows-version", "Windows x64 · GitHub");
+    setText("hero-linux-version", "Linux x64 · GitHub");
   }
 
   function navigateToChannel(channel) {
@@ -408,7 +419,7 @@
       desc.textContent = release.name && release.name !== release.tag_name ? release.name : index === 0 ? "Latest in this channel" : "GitHub release";
       const badge = document.createElement("span");
       badge.className = "release-badge";
-      badge.textContent = index === 0 ? "LATEST" : release.prerelease ? "PRE" : "REL";
+      badge.textContent = index === 0 ? "LATEST" : releaseBadge(release);
 
       button.append(title, date, desc, badge);
       button.addEventListener("click", () => selectRelease(release, { updateHash: true }));
@@ -448,17 +459,16 @@
     if (els.detailContent) els.detailContent.hidden = false;
 
     const latest = release === channelItems()[0];
-    const asset = preferredAsset(release);
-    const checksum = checksumAsset(release);
+    const windowsAsset = platformAsset(release, "windows");
+    const linuxAsset = platformAsset(release, "linux");
+    const buildCount = [windowsAsset, linuxAsset].filter(Boolean).length;
 
-    setText("detail-channel", release.prerelease ? "BETA / RC" : "STABLE");
+    setText("detail-channel", releaseChannelLabel(release));
     byId("detail-channel")?.classList.toggle("is-beta", Boolean(release.prerelease));
     setText("detail-tag", release.tag_name || "untagged");
     setText("detail-title", release.name || release.tag_name || "MCW Launcher release");
     setText("detail-date", formatDate(release.published_at || release.created_at));
-    setText("detail-size", asset ? formatBytes(asset.size) : "—");
-    setText("detail-asset-name", asset?.name || "No Windows ZIP detected");
-    setText("asset-message", asset ? `${formatBytes(asset.size)} · GitHub Release asset` : "Open GitHub to inspect available assets");
+    setText("detail-build-count", `${buildCount}/2 available`);
 
     const latestPill = byId("detail-latest");
     if (latestPill) latestPill.hidden = !latest;
@@ -466,7 +476,25 @@
     const github = byId("detail-github");
     if (github) github.href = release.html_url || RELEASES_URL;
 
-    const download = byId("detail-download");
+    renderPlatformPackage("windows", windowsAsset, release);
+    renderPlatformPackage("linux", linuxAsset, release);
+    const notes = byId("release-notes");
+    if (notes) notes.innerHTML = renderMarkdown(release.body || "_Không có release notes cho phiên bản này._");
+  }
+
+  function renderPlatformPackage(platform, asset, release) {
+    const container = $(`[data-platform-package="${platform}"]`);
+    const assetName = byId(`${platform}-asset-name`);
+    const message = byId(`${platform}-asset-message`);
+    const download = byId(`${platform}-download`);
+    const label = platform === "windows" ? "Windows" : "Linux";
+
+    container?.classList.toggle("is-unavailable", !asset);
+    if (assetName) assetName.textContent = asset?.name || `${label} package not published`;
+    if (message) message.textContent = asset
+      ? `${formatBytes(asset.size)} · GitHub Release asset`
+      : "Không có asset phù hợp trong release này";
+
     if (download) {
       if (asset?.browser_download_url) {
         download.href = asset.browser_download_url;
@@ -475,25 +503,25 @@
       } else {
         download.href = release.html_url || RELEASES_URL;
         download.classList.add("is-disabled");
-        download.setAttribute("aria-label", "Không tìm thấy gói ZIP phù hợp");
+        download.setAttribute("aria-label", `Chưa có gói ${label} cho release này`);
       }
     }
 
-    renderChecksum(checksum);
-    const notes = byId("release-notes");
-    if (notes) notes.innerHTML = renderMarkdown(release.body || "_Không có release notes cho phiên bản này._");
+    renderChecksum(`${platform}-checksum`, checksumAsset(release, asset, platform));
   }
 
-  async function renderChecksum(asset) {
-    const row = byId("detail-checksum");
+  async function renderChecksum(rowId, asset) {
+    const row = byId(rowId);
     if (!row) return;
     if (!asset?.browser_download_url) {
       row.hidden = true;
       row.textContent = "";
+      delete row.dataset.asset;
       return;
     }
 
     row.hidden = false;
+    row.dataset.asset = asset.name || "checksum";
     row.textContent = `SHA-256: ${asset.name}`;
     try {
       if ((asset.size || 0) > 64 * 1024) return;
@@ -501,27 +529,60 @@
       if (!response.ok) return;
       const text = (await response.text()).trim();
       if (!text || text.length > 500) return;
+      if (row.dataset.asset !== (asset.name || "checksum")) return;
       row.textContent = `SHA-256 · ${text}`;
     } catch {
       // Keep the checksum asset name as a useful fallback.
     }
   }
 
-  function preferredAsset(release) {
+  function platformAsset(release, platform) {
     const assets = Array.isArray(release.assets) ? release.assets : [];
-    const files = assets.filter((asset) => !/sha(?:256)?|checksum/i.test(asset.name || ""));
+    const files = assets.filter((asset) => /\.zip$/i.test(asset.name || "") && !/sha(?:256)?|checksum/i.test(asset.name || ""));
+    const matchers = platform === "linux"
+      ? [/linux[-_.]?x64/i, /x64[-_.]?linux/i, /linux[-_.]?(?:amd64|x86_64)/i]
+      : [/windows[-_.]?x64/i, /x64[-_.]?windows/i, /win(?:dows)?[-_.]?(?:64|x64)/i];
+    return files.find((asset) => matchers.some((pattern) => pattern.test(asset.name || ""))) || null;
+  }
+
+  function checksumAsset(release, packageAsset, platform) {
+    if (!packageAsset) return null;
+    const assets = Array.isArray(release.assets) ? release.assets : [];
+    const packageName = String(packageAsset.name || "");
+    const exactNames = new Set([
+      `${packageName}.sha256`.toLowerCase(),
+      packageName.replace(/\.zip$/i, ".sha256").toLowerCase(),
+      packageName.replace(/\.zip$/i, ".zip.sha256").toLowerCase(),
+    ]);
     return (
-      files.find((a) => /windows.*x64|win.*x64|x64.*windows/i.test(a.name || "") && /\.zip$/i.test(a.name || "")) ||
-      files.find((a) => /windows|win64|x64/i.test(a.name || "") && /\.zip$/i.test(a.name || "")) ||
-      files.find((a) => /\.zip$/i.test(a.name || "")) ||
-      files[0] ||
+      assets.find((asset) => exactNames.has(String(asset.name || "").toLowerCase())) ||
+      assets.find((asset) => {
+        const name = String(asset.name || "");
+        return /sha(?:256)?|checksum/i.test(name) && new RegExp(platform, "i").test(name);
+      }) ||
       null
     );
   }
 
-  function checksumAsset(release) {
-    const assets = Array.isArray(release.assets) ? release.assets : [];
-    return assets.find((asset) => /sha(?:256)?|checksum/i.test(asset.name || "")) || null;
+  function releaseChannelLabel(release) {
+    const tag = String(release?.tag_name || "").toLowerCase();
+    if (!release?.prerelease) return "STABLE";
+    if (/-rc(?:\.|-|$)/.test(tag)) return "RELEASE CANDIDATE";
+    if (/-beta(?:\.|-|$)/.test(tag)) return "BETA";
+    return "PRE-RELEASE";
+  }
+
+  function isBetaOrRc(release) {
+    const tag = String(release?.tag_name || "").toLowerCase();
+    return /-(?:beta|rc)(?:\.|-|$)/.test(tag);
+  }
+
+  function releaseBadge(release) {
+    const label = releaseChannelLabel(release);
+    if (label === "RELEASE CANDIDATE") return "RC";
+    if (label === "PRE-RELEASE") return "PRE";
+    if (label === "BETA") return "BETA";
+    return "REL";
   }
 
   function findByTag(tag, channel = state.channel) {

@@ -1,4 +1,4 @@
-# MCW Launcher — V3 Design Notes
+# MCW Launcher — V4 Release Matrix Notes
 
 ## Concept: World Control System
 
@@ -19,6 +19,9 @@ This is a ground-up redesign, not a reskin of the previous MCW Launcher website.
 - Scroll reveal with reduced-motion fallback.
 - Hash-based Home / Releases navigation.
 - Release/Beta tabs, search, release detail, notes and direct download.
+- Platform-aware Windows/Linux download cards inside every Stable, Beta or RC release.
+- Strict asset matching prevents a missing Linux build from falling back to a Windows ZIP (and vice versa).
+- Per-platform availability and checksum states remain useful for older Windows-only releases.
 - GitHub Releases API cache (10 minutes) + stale cache fallback.
 - Dark/light theme stored in localStorage.
 

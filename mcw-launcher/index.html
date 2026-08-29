@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#07090d">
-  <meta name="description" content="MCW Launcher — một launcher Minecraft gọn, nhanh và có tổ chức cho Windows. Instance độc lập, Java tự động, Fabric/Forge, Modrinth và phục hồi an toàn.">
+  <meta name="description" content="MCW Launcher cho Windows và Linux — tải Stable hoặc thử Beta/RC, với instance độc lập, Java tự động, Fabric/Forge, Modrinth và phục hồi an toàn.">
   <meta name="color-scheme" content="dark light">
   <meta property="og:title" content="MCW Launcher — One launcher. Infinite worlds.">
-  <meta property="og:description" content="Quản lý Minecraft theo cách ít lộn xộn hơn: instance riêng, mods rõ ràng, download có tiến trình và release tự động từ GitHub.">
+  <meta property="og:description" content="Một launcher Minecraft cho Windows và Linux, với Stable cho sử dụng hằng ngày và Beta/RC cho tester.">
   <meta property="og:type" content="website">
   <title>MCW Launcher — One launcher. Infinite worlds.</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -62,7 +62,7 @@
           <div class="hero-copy">
             <div class="hero-kicker reveal">
               <span class="status-pulse"></span>
-              <span>Open source · Windows x64</span>
+              <span>Open source · Windows + Linux</span>
               <span class="kicker-divider"></span>
               <span id="hero-stable-version">checking release…</span>
             </div>
@@ -77,15 +77,23 @@
             </p>
 
             <div class="hero-cta reveal" data-delay="120">
-              <a class="cta-main magnetic" id="hero-stable-download" href="#download/release">
+              <a class="cta-main cta-platform magnetic" id="hero-windows-download" href="#download/release">
                 <span class="cta-icon" aria-hidden="true">
                   <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
                 </span>
-                <span class="cta-copy"><small>Download stable</small><strong id="hero-download-version">Windows x64</strong></span>
+                <span class="cta-copy"><small>Stable for</small><strong id="hero-windows-version">Windows x64</strong></span>
                 <span class="cta-arrow" aria-hidden="true">↘</span>
               </a>
-              <a class="cta-secondary magnetic" href="#workflow">See how it works <span aria-hidden="true">↓</span></a>
+              <a class="cta-main cta-platform cta-linux magnetic" id="hero-linux-download" href="#download/release">
+                <span class="cta-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
+                </span>
+                <span class="cta-copy"><small>Stable for</small><strong id="hero-linux-version">Linux x64</strong></span>
+                <span class="cta-arrow" aria-hidden="true">↘</span>
+              </a>
             </div>
+
+            <a class="hero-release-link reveal" data-delay="145" href="#download/beta">Looking for Beta or RC? Open the release archive <span aria-hidden="true">↗</span></a>
 
             <div class="hero-footnote reveal" data-delay="160">
               <span>Vanilla</span><i></i><span>Fabric</span><i></i><span>Forge</span><i></i><span>Modrinth</span>
@@ -313,12 +321,14 @@
             <div class="channel-card-top"><span><i></i> STABLE</span><small>recommended</small></div>
             <strong id="quick-stable-version">Checking…</strong>
             <p>Bản phát hành dành cho sử dụng hàng ngày.</p>
+            <div class="platform-pills" aria-label="Nền tảng được hỗ trợ"><span>⊞ Windows x64</span><span>⌁ Linux x64</span></div>
             <div class="channel-card-bottom"><span id="stable-count">— releases</span><b>Download ↘</b></div>
           </a>
           <a class="channel-card channel-beta" href="#download/beta">
             <div class="channel-card-top"><span><i></i> BETA / RC</span><small>for testing</small></div>
             <strong id="quick-beta-version">Checking…</strong>
             <p>Tính năng mới sớm hơn, đổi lại mức ổn định thấp hơn.</p>
+            <div class="platform-pills" aria-label="Nền tảng được hỗ trợ"><span>⊞ Windows x64</span><span>⌁ Linux x64</span></div>
             <div class="channel-card-bottom"><span id="beta-count">— previews</span><b>Explore ↗</b></div>
           </a>
         </div>
@@ -332,11 +342,11 @@
           </div>
           <div class="final-cta-actions reveal" data-delay="80">
             <a class="mega-download magnetic" href="#download/release">
-              <span>DOWNLOAD MCW</span>
-              <strong id="footer-stable-version">Latest stable</strong>
+              <span>CHOOSE YOUR BUILD</span>
+              <strong id="footer-stable-version">Windows + Linux · Latest stable</strong>
               <i>↘</i>
             </a>
-            <p>Windows 10/11 · x64<br>Open source on GitHub</p>
+            <p>Windows 10/11 x64 · Linux x64<br>Stable · Beta · Release Candidate</p>
           </div>
         </div>
       </section>
@@ -353,7 +363,7 @@
           </div>
           <div class="downloads-status" id="data-status"><i></i><span>Connecting to GitHub…</span></div>
         </div>
-        <p class="downloads-lead">Stable cho sử dụng thông thường. Beta / RC dành cho tester muốn thử những thay đổi mới trước khi chúng trở thành release chính thức.</p>
+        <p class="downloads-lead">Chọn kênh phát hành trước, sau đó tải đúng gói Windows hoặc Linux. Stable dành cho sử dụng thông thường; Beta và RC dành cho tester muốn thử thay đổi mới.</p>
       </section>
 
       <section class="release-browser shell" id="release-browser">
@@ -407,17 +417,32 @@
 
             <div class="detail-meta">
               <span><small>Published</small><strong id="detail-date">—</strong></span>
-              <span><small>Package</small><strong id="detail-size">—</strong></span>
-              <span><small>Platform</small><strong>Windows x64</strong></span>
+              <span><small>Available builds</small><strong id="detail-build-count">—</strong></span>
+              <span><small>Platforms</small><strong>Windows + Linux</strong></span>
             </div>
 
-            <div class="download-package">
-              <div class="package-icon">ZIP</div>
-              <div class="package-info"><small>WINDOWS PACKAGE</small><strong id="detail-asset-name">Loading…</strong><span id="asset-message">Ready to download</span></div>
-              <a class="package-download" id="detail-download" href="#" target="_blank" rel="noreferrer"><span>Download</span><b>↘</b></a>
+            <div class="download-section-heading">
+              <div><span>PLATFORM BUILDS</span><strong>Pick your operating system.</strong></div>
+              <small>Every package is selected by its exact release asset name.</small>
             </div>
 
-            <div class="checksum-row" id="detail-checksum" hidden></div>
+            <div class="download-packages">
+              <section class="platform-package platform-windows" data-platform-package="windows">
+                <div class="package-topline"><span class="platform-mark">⊞</span><small>WINDOWS 10/11 · X64</small></div>
+                <strong id="windows-asset-name">Checking package…</strong>
+                <span id="windows-asset-message">Reading GitHub Release assets</span>
+                <a class="package-download" id="windows-download" href="#" target="_blank" rel="noreferrer"><span>Download Windows</span><b>↘</b></a>
+                <div class="checksum-row" id="windows-checksum" hidden></div>
+              </section>
+
+              <section class="platform-package platform-linux" data-platform-package="linux">
+                <div class="package-topline"><span class="platform-mark">⌁</span><small>LINUX · X64</small></div>
+                <strong id="linux-asset-name">Checking package…</strong>
+                <span id="linux-asset-message">Reading GitHub Release assets</span>
+                <a class="package-download" id="linux-download" href="#" target="_blank" rel="noreferrer"><span>Download Linux</span><b>↘</b></a>
+                <div class="checksum-row" id="linux-checksum" hidden></div>
+              </section>
+            </div>
 
             <section class="release-notes-section">
               <div class="notes-heading"><span>RELEASE NOTES</span><i></i></div>
