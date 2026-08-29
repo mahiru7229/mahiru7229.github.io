@@ -3,76 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="mahiru7229's Card | a guy who loves playing games and coding">
-    <meta name="keywords" content="HTML, CSS, JavaScript, card, vietnam, coding, games">
+    <meta name="description" content="mahiru7229's personal card — a student who loves games and coding.">
+    <meta name="keywords" content="mahiru7229, portfolio, coding, games, Vietnam">
     <meta name="author" content="mahiru7229">
+    <meta name="theme-color" content="#111827">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
     <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="shortcut icon" href="./assets/img/avatar/user_avatar.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <link rel="shortcut icon" href="./assets/img/avatar/user_avatar.png" type="image/png">
     <title>mahiru7229's Card</title>
 </head>
 <body>
     <div id="main">
-        <div class="bg-img"></div>           
-        <div id="card">
-            <div class="card-container">
-                
-                <img src="./assets/img/avatar/user_avatar.png" alt="User Avatar" class="avatar">
-                <h2 class="name-user title">Huỳnh Ngọc Hoàng Tùng</h2> 
-                <p class="name-nickname decscription">@mahiru7229</p>      
-                <p class="decscription">Hi, I'm mahiru7229, a 18 years old who<br>loves playing games and coding <3</p>    
-                <div class="user-infomation">
-                    <i class="fa-solid fa-school"></i> 
-                    Da Nang University of Science and Technology (2026 - present)
-                </div>
-                <div class="user-infomation">
-                    <i class="fa-solid fa-school"></i> 
-                    12/8 Nguyen Van Thoai High School (Graduated) (2023 - 2026)
-                </div>
-                <div class="user-talent">
-                    <div class="row-two">
-                        <h2 class="content-title title">Games</h2>
-                        <ul>
-                            <li><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/valorant.png" alt="valorant"/><a href="https://specs.gg/tz_mahiru7229">VALORANT</a></li>
-                            <li><img width="48" height="48" src="https://img.icons8.com/color/48/minecraft-grass-cube.png" alt="minecraft-grass-cube"/><a href="https://namemc.com/search?q=mahiru7229">Minecraft</a></li>
-                            <li><img width="50" height="50" src="https://img.icons8.com/ios/50/osu.png" alt="osu"/><a href="https://osu.ppy.sh/users/23007143">osu!</a></li>
-                            <li><img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/genshin-impact-logo.png" alt="genshin-impact-logo"/><a href="https://dak.gg/genshin/en/profile/826451920">Genshin Impact</a></li>
-                            <li><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/honkai-star-rail-logo.png" alt="honkai-star-rail-logo"/><a href="">Honkai: Star Rail</a></li>
-                        </ul>
-                    </div>
-                    <div class="row-two">
-                        <h2 class="content-title title">Programming</h2>
-                        <ul>
-                            <li><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/python.png" alt="python"/><a href="https://www.python.org/">Python</a></li>
-                            <li><img width="50" height="50" src="https://img.icons8.com/ios-filled/50/c-plus-plus-logo.png" alt="c-plus-plus-logo"/><a href="https://cplusplus.com/">C++</a></li>
-                            <li><img width="48" height="48" src="https://img.icons8.com/color/48/html-5--v1.png" alt="html-5--v1"/><a href="https://en.wikipedia.org/wiki/HTML">HTML/CSS</a></li>
-                            <li><img width="48" height="48" src="https://img.icons8.com/color/48/javascript--v1.png" alt="javascript--v1"/><a href="https://en.wikipedia.org/wiki/JavaScript">JavaScript</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div id="footer">
-                    <div class="contact">
-                        <a href="https://www.youtube.com/@mahiru7229"><i class="fa-brands fa-youtube"></i></a>
-                        <a href="https://www.facebook.com/mahiru7229/"><i class="fa-brands fa-facebook"></i></a>
-                        <a href="https://twitter.com/mahiru7229"><i class="fa-brands fa-twitter"></i></a>
-                        <a href="https://github.com/mahiru7229"><i class="fa-brands fa-github"></i></a>
-                        <a href="" onclick="myFunction()"><i class="fa-brands fa-discord"></i></a>
-                        
-                        
-                    </div>
-                    <a href="./mcw-launcher/index.html" style="color:black; ">MCW Launcher Project</a>
-                    <p class="decscription">Copyright @mahiru7229</p>
-                </div>
-                
-            </div>
-        </div>
+        <div class="bg-img" aria-hidden="true"></div>
 
+        <main id="card">
+            <article class="card-container">
+                <header class="profile-header">
+                    <img
+                        src="./assets/img/avatar/user_avatar.png"
+                        alt="Avatar of Huỳnh Ngọc Hoàng Tùng"
+                        class="avatar"
+                        width="148"
+                        height="148"
+                    >
+
+                    <div class="profile-copy">
+                        <p class="eyebrow">Hello, I'm</p>
+                        <h1 class="name-user">Huỳnh Ngọc Hoàng Tùng</h1>
+                        <p class="name-nickname">@mahiru7229</p>
+                        <p class="description">An 18-year-old student from Da Nang who loves playing games, building things and coding.</p>
+
+                        <div class="profile-actions">
+                            <a class="button button-primary" href="./mcw-launcher/index.html">
+                                <i class="fa-solid fa-rocket" aria-hidden="true"></i>
+                                MCW Launcher
+                            </a>
+                            <a class="button button-secondary" href="https://github.com/mahiru7229" target="_blank" rel="noreferrer">
+                                <i class="fa-brands fa-github" aria-hidden="true"></i>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="section" aria-labelledby="education-title">
+                    <div class="section-heading">
+                        <span class="section-icon" aria-hidden="true"><i class="fa-solid fa-graduation-cap"></i></span>
+                        <div>
+                            <p class="section-kicker">Background</p>
+                            <h2 id="education-title">Education</h2>
+                        </div>
+                    </div>
+
+                    <div class="education-grid">
+                        <div class="education-card">
+                            <span class="education-status">Current</span>
+                            <h3>Da Nang University of Science and Technology</h3>
+                            <p>2026 — present</p>
+                        </div>
+                        <div class="education-card">
+                            <span class="education-status education-status-muted">Graduated</span>
+                            <h3>Nguyen Van Thoai High School · Class 12/8</h3>
+                            <p>2023 — 2026</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section" aria-labelledby="interests-title">
+                    <div class="section-heading">
+                        <span class="section-icon" aria-hidden="true"><i class="fa-solid fa-code"></i></span>
+                        <div>
+                            <p class="section-kicker">Things I enjoy</p>
+                            <h2 id="interests-title">Games &amp; programming</h2>
+                        </div>
+                    </div>
+
+                    <div class="user-talent">
+                        <div class="talent-card">
+                            <h3 class="content-title">Games</h3>
+                            <ul class="talent-list">
+                                <li><a href="https://specs.gg/tz_mahiru7229" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/ios-filled/50/valorant.png" alt="" width="28" height="28" loading="lazy">VALORANT</a></li>
+                                <li><a href="https://namemc.com/search?q=mahiru7229" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/color/48/minecraft-grass-cube.png" alt="" width="28" height="28" loading="lazy">Minecraft</a></li>
+                                <li><a href="https://osu.ppy.sh/users/23007143" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/ios/50/osu.png" alt="" width="28" height="28" loading="lazy">osu!</a></li>
+                                <li><a href="https://dak.gg/genshin/en/profile/826451920" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/ios-glyphs/30/genshin-impact-logo.png" alt="" width="28" height="28" loading="lazy">Genshin Impact</a></li>
+                                <li><span><img src="https://img.icons8.com/ios-filled/50/honkai-star-rail-logo.png" alt="" width="28" height="28" loading="lazy">Honkai: Star Rail</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="talent-card">
+                            <h3 class="content-title">Programming</h3>
+                            <ul class="talent-list">
+                                <li><a href="https://www.python.org/" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/ios-filled/50/python.png" alt="" width="28" height="28" loading="lazy">Python</a></li>
+                                <li><a href="https://cplusplus.com/" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/ios-filled/50/c-plus-plus-logo.png" alt="" width="28" height="28" loading="lazy">C++</a></li>
+                                <li><a href="https://developer.mozilla.org/docs/Web/HTML" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/color/48/html-5--v1.png" alt="" width="28" height="28" loading="lazy">HTML / CSS</a></li>
+                                <li><a href="https://developer.mozilla.org/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://img.icons8.com/color/48/javascript--v1.png" alt="" width="28" height="28" loading="lazy">JavaScript</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <footer id="footer">
+                    <nav class="contact" aria-label="Social links">
+                        <a href="https://www.youtube.com/@mahiru7229" target="_blank" rel="noreferrer" aria-label="YouTube"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
+                        <a href="https://www.facebook.com/mahiru7229/" target="_blank" rel="noreferrer" aria-label="Facebook"><i class="fa-brands fa-facebook" aria-hidden="true"></i></a>
+                        <a href="https://twitter.com/mahiru7229" target="_blank" rel="noreferrer" aria-label="X / Twitter"><i class="fa-brands fa-twitter" aria-hidden="true"></i></a>
+                        <a href="https://github.com/mahiru7229" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fa-brands fa-github" aria-hidden="true"></i></a>
+                        <button class="social-button" id="copy-discord" type="button" aria-label="Copy Discord username" data-copy="@mahiru7229"><i class="fa-brands fa-discord" aria-hidden="true"></i></button>
+                    </nav>
+                    <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+                    <p class="copyright">© mahiru7229</p>
+                </footer>
+            </article>
+        </main>
     </div>
+
     <script src="./assets/js/index.js"></script>
-
-        
-
-    
 </body>
 </html>
