@@ -1,1207 +1,152 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MCW Launcher Core — Download, Docs & Installation</title>
-  <meta name="description" content="Anime-style landing page for MCW Launcher Core with downloads, docs, installation guide, package overview, and customizable background." />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MCW Launcher Core — downloads, installation and live documentation from the GitHub repository.">
+  <meta name="theme-color" content="#12172d">
+  <title>MCW Launcher Core · Download & Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark-dimmed.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
   <style>
-    :root {
-      --bg-image: url('./assets/background.jpg');
-      --bg-fallback: radial-gradient(circle at top, #2c3b88 0%, #11162f 38%, #090b16 100%);
-      --panel: rgba(19, 23, 44, 0.74);
-      --panel-strong: rgba(13, 17, 35, 0.88);
-      --border: rgba(255, 255, 255, 0.14);
-      --text: #f6f7ff;
-      --muted: #cfd5ff;
-      --subtle: #9ba6da;
-      --accent: #8cb8ff;
-      --accent-2: #ff9ddb;
-      --accent-3: #98f5e1;
-      --shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --max-width: 1220px;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background: #070911;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(8, 11, 24, 0.45), rgba(7, 9, 18, 0.78)),
-        var(--bg-image),
-        var(--bg-fallback);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      z-index: -3;
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(circle at 18% 20%, rgba(255, 157, 219, 0.16), transparent 28%),
-        radial-gradient(circle at 82% 14%, rgba(140, 184, 255, 0.15), transparent 28%),
-        radial-gradient(circle at 60% 80%, rgba(152, 245, 225, 0.12), transparent 24%);
-      z-index: -2;
-      pointer-events: none;
-    }
-
-    .petals,
-    .petals::before,
-    .petals::after {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: -1;
-      content: "";
-      background-image:
-        radial-gradient(circle, rgba(255, 202, 233, 0.85) 0 3px, transparent 3.5px),
-        radial-gradient(circle, rgba(173, 194, 255, 0.65) 0 2px, transparent 2.5px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.6) 0 1.5px, transparent 2px);
-      background-size: 180px 180px, 220px 220px, 260px 260px;
-      animation: drift 30s linear infinite;
-      opacity: 0.30;
-    }
-    .petals::before { animation-duration: 42s; opacity: 0.18; transform: scale(1.08); }
-    .petals::after { animation-duration: 56s; opacity: 0.10; transform: scale(1.15); }
-
-    @keyframes drift {
-      from { transform: translateY(-2%) translateX(0); }
-      to { transform: translateY(2%) translateX(-2%); }
-    }
-
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    code, pre {
-      font-family: "Cascadia Code", "Fira Code", Consolas, Monaco, monospace;
-    }
-
-    .container {
-      width: min(var(--max-width), calc(100% - 32px));
-      margin: 0 auto;
-    }
-
-    .glass {
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .nav-wrap {
-      position: sticky;
-      top: 12px;
-      z-index: 100;
-      padding-top: 12px;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 14px 18px;
-      border-radius: 999px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(140,184,255,0.95), rgba(255,157,219,0.95));
-      color: #10152a;
-      font-weight: 900;
-      letter-spacing: 0.04em;
-      box-shadow: 0 8px 24px rgba(140,184,255,0.32);
-      flex: 0 0 auto;
-    }
-
-    .brand-text {
-      min-width: 0;
-    }
-    .brand-title {
-      font-size: 0.98rem;
-      font-weight: 800;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .brand-subtitle {
-      color: var(--subtle);
-      font-size: 0.78rem;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .nav-links a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-size: 0.92rem;
-      transition: 0.2s ease;
-    }
-    .nav-links a:hover {
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-    }
-
-    .hero {
-      padding: 72px 0 36px;
-    }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.25fr 0.95fr;
-      gap: 26px;
-      align-items: stretch;
-    }
-
-    .hero-card, .side-card, .section-card {
-      border-radius: var(--radius-xl);
-      padding: 28px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-      color: var(--accent-3);
-      font-size: 0.84rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2.3rem, 5vw, 4.6rem);
-      line-height: 1.03;
-      letter-spacing: -0.04em;
-    }
-
-    .hero-lead {
-      color: var(--muted);
-      font-size: 1.06rem;
-      max-width: 62ch;
-      margin-bottom: 24px;
-    }
-
-    .hero-highlight {
-      color: #fff2fb;
-      background: linear-gradient(135deg, rgba(140,184,255,0.16), rgba(255,157,219,0.16));
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius-lg);
-      padding: 18px;
-      margin: 22px 0;
-    }
-
-    .button-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 22px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 48px;
-      padding: 0 18px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      cursor: pointer;
-      font-weight: 700;
-      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: linear-gradient(135deg, rgba(140,184,255,0.95), rgba(255,157,219,0.96));
-      color: #10152a;
-      border-color: transparent;
-      box-shadow: 0 12px 26px rgba(140,184,255,0.24);
-    }
-    .btn-ghost:hover,
-    .btn:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: rgba(255,255,255,0.18);
-    }
-
-    .hero-stats {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 28px;
-    }
-
-    .mini-stat {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    .mini-stat strong {
-      display: block;
-      font-size: 1.25rem;
-      margin-bottom: 2px;
-    }
-    .mini-stat span {
-      color: var(--subtle);
-      font-size: 0.92rem;
-    }
-
-    .stack {
-      display: grid;
-      gap: 18px;
-      height: 100%;
-    }
-
-    .version-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(152,245,225,0.12);
-      color: var(--accent-3);
-      font-size: 0.82rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .download-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .download-item {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-
-    .download-item .meta {
-      color: var(--subtle);
-      font-size: 0.9rem;
-    }
-
-    .tiny-tag {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 0.76rem;
-      font-weight: 700;
-      background: rgba(255,255,255,0.08);
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    section {
-      padding: 18px 0;
-    }
-
-    .section-heading {
-      margin: 0 0 14px;
-      font-size: clamp(1.6rem, 3vw, 2.35rem);
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-    }
-    .section-subtitle {
-      margin: 0 0 24px;
-      color: var(--muted);
-      max-width: 75ch;
-    }
-
-    .grid-3, .grid-2, .grid-4 {
-      display: grid;
-      gap: 18px;
-    }
-    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-
-    .card-title {
-      margin: 0 0 8px;
-      font-size: 1.1rem;
-      font-weight: 800;
-    }
-    .card-body {
-      color: var(--muted);
-      font-size: 0.96rem;
-    }
-
-    .icon-badge {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 14px;
-      background: linear-gradient(135deg, rgba(140,184,255,0.2), rgba(255,157,219,0.2));
-      border: 1px solid rgba(255,255,255,0.1);
-      font-size: 1.3rem;
-    }
-
-    .code-panel {
-      position: relative;
-      border-radius: 18px;
-      background: rgba(9, 11, 22, 0.88);
-      border: 1px solid rgba(255,255,255,0.08);
-      overflow: hidden;
-    }
-    .code-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 14px;
-      background: rgba(255,255,255,0.05);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    pre {
-      margin: 0;
-      padding: 18px;
-      overflow: auto;
-      color: #f2f5ff;
-      font-size: 0.94rem;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-    .tab-button {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      color: var(--muted);
-      padding: 10px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    .tab-button.active {
-      background: linear-gradient(135deg, rgba(140,184,255,0.18), rgba(255,157,219,0.18));
-      color: var(--text);
-      border-color: rgba(255,255,255,0.18);
-    }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-
-    .timeline {
-      display: grid;
-      gap: 14px;
-    }
-
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 44px 1fr;
-      gap: 14px;
-      align-items: start;
-    }
-
-    .step-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, rgba(140,184,255,0.22), rgba(255,157,219,0.22));
-      border: 1px solid rgba(255,255,255,0.10);
-      font-weight: 800;
-    }
-
-    details {
-      border-radius: 18px;
-      padding: 16px 18px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-    }
-    details + details { margin-top: 12px; }
-    summary {
-      cursor: pointer;
-      font-weight: 800;
-      list-style: none;
-    }
-    summary::-webkit-details-marker { display: none; }
-    details p, details ul { color: var(--muted); }
-
-    .feature-list {
-      display: grid;
-      gap: 10px;
-      margin: 14px 0 0;
-      padding: 0;
-      list-style: none;
-      color: var(--muted);
-    }
-    .feature-list li::before {
-      content: "✦";
-      color: var(--accent-2);
-      margin-right: 10px;
-    }
-
-    .banner {
-      display: grid;
-      gap: 14px;
-      align-items: center;
-      grid-template-columns: 1.2fr 0.8fr;
-    }
-
-    .notice {
-      border-radius: 18px;
-      background: rgba(152,245,225,0.08);
-      border: 1px solid rgba(152,245,225,0.16);
-      padding: 14px 16px;
-      color: #eafef8;
-    }
-
-    .footer {
-      padding: 36px 0 52px;
-      color: var(--subtle);
-      font-size: 0.94rem;
-    }
-
-    .utility-bar {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      display: grid;
-      gap: 10px;
-      z-index: 120;
-    }
-
-    .utility-card {
-      padding: 12px;
-      border-radius: 18px;
-      width: min(92vw, 320px);
-    }
-
-    .utility-card h4 {
-      margin: 0 0 8px;
-      font-size: 0.95rem;
-    }
-    .utility-card p {
-      margin: 0 0 10px;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-    .utility-card input[type="file"],
-    .utility-card input[type="url"] {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
-      color: var(--text);
-      padding: 10px 12px;
-      margin-bottom: 10px;
-    }
-    .utility-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .soft-list {
-      margin: 0;
-      padding-left: 18px;
-      color: var(--muted);
-    }
-
-    .pill-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border-radius: 999px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      color: var(--muted);
-      font-size: 0.88rem;
-      font-weight: 600;
-    }
-
-    .muted {
-      color: var(--subtle);
-    }
-
-    .small { font-size: 0.88rem; }
-
-    @media (max-width: 1050px) {
-      .hero-grid,
-      .banner,
-      .grid-2,
-      .grid-3,
-      .grid-4 {
-        grid-template-columns: 1fr;
-      }
-      .hero-stats { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 740px) {
-      .hero { padding-top: 36px; }
-      .hero-card, .side-card, .section-card { padding: 20px; }
-      nav {
-        border-radius: 26px;
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      .nav-links {
-        width: 100%;
-        justify-content: flex-start;
-      }
-      .download-item {
-        grid-template-columns: 1fr;
-      }
-      .timeline-item {
-        grid-template-columns: 1fr;
-      }
-      .utility-bar {
-        position: static;
-        padding: 20px 16px 0;
-      }
-      .utility-card {
-        width: 100%;
-      }
-    }
+    :root{
+      --bg-custom:none;--bg-default:radial-gradient(circle at 18% 10%,#293675 0,#151936 35%,#090c18 72%);
+      --ink:#f8f9ff;--muted:#c9cdea;--soft:#9298c3;--line:rgba(255,255,255,.12);--line2:rgba(255,255,255,.075);
+      --surface:rgba(17,21,44,.72);--surface2:rgba(26,31,62,.67);--deep:rgba(8,11,25,.9);
+      --pink:#f5a9d1;--blue:#a7c9ff;--violet:#b7a6ff;--mint:#9ce7d7;--amber:#ffd29f;
+      --shadow:0 25px 80px rgba(0,0,0,.42);--radius:26px;--radius2:18px;--max:1250px;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth;background:#080b17}body{margin:0;color:var(--ink);font-family:Nunito,system-ui,sans-serif;line-height:1.65;overflow-x:hidden}a{color:inherit;text-decoration:none}button,input{font:inherit}
+    .bg{position:fixed;inset:0;z-index:-5;background-image:linear-gradient(rgba(8,10,24,.46),rgba(6,8,20,.83)),var(--bg-custom),var(--bg-default);background-size:cover;background-position:center;background-repeat:no-repeat}
+    .bg::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 18%,rgba(245,169,209,.16),transparent 32%),radial-gradient(circle at 84% 12%,rgba(167,201,255,.16),transparent 30%),radial-gradient(circle at 70% 80%,rgba(156,231,215,.1),transparent 30%)}
+    .petals{position:fixed;inset:0;z-index:-4;pointer-events:none;opacity:.22;background-image:radial-gradient(circle,#ffd7ed 0 2px,transparent 2.5px),radial-gradient(circle,#b8ceff 0 1.5px,transparent 2px);background-size:185px 185px,260px 260px;animation:fall 38s linear infinite}@keyframes fall{to{background-position:100px 220px,-100px 280px}}
+    .wrap{width:min(var(--max),calc(100% - 30px));margin:auto}.glass{background:linear-gradient(155deg,rgba(27,31,65,.76),rgba(11,15,36,.68));border:1px solid var(--line);box-shadow:var(--shadow);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+    .topbar-wrap{position:sticky;top:10px;z-index:50;padding-top:10px}.topbar{min-height:64px;padding:10px 14px 10px 16px;border-radius:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{display:flex;align-items:center;gap:12px}.logo{width:43px;height:43px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--pink),var(--blue));color:#12172e;font-weight:900;box-shadow:0 8px 24px rgba(180,187,255,.23)}.brand strong{display:block;line-height:1.15}.brand small{color:var(--soft)}
+    .nav{display:flex;gap:3px;flex-wrap:wrap}.nav a{padding:9px 11px;border-radius:11px;color:var(--muted);font-size:.88rem;font-weight:800}.nav a:hover{background:rgba(255,255,255,.07);color:white}.back{border:1px solid var(--line2)!important}
+    .hero{padding:62px 0 22px}.hero-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:18px}.panel{border-radius:var(--radius);padding:clamp(24px,4vw,42px)}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;border:1px solid rgba(156,231,215,.18);background:rgba(156,231,215,.08);color:var(--mint);font-size:.8rem;font-weight:900}.badge i{font-size:.7rem}
+    h1{margin:15px 0 0;font-size:clamp(2.4rem,5.5vw,4.7rem);line-height:1.0;letter-spacing:-.055em}.grad{background:linear-gradient(110deg,#fff 0,#bad3ff 42%,#f7b4d7 80%);-webkit-background-clip:text;background-clip:text;color:transparent}.lead{max-width:720px;color:var(--muted);font-size:1.04rem;margin:18px 0 0}.buttons{display:flex;flex-wrap:wrap;gap:10px;margin-top:23px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:45px;padding:0 16px;border-radius:13px;border:1px solid var(--line);background:rgba(255,255,255,.055);font-weight:900;color:var(--ink);cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.21)}.btn.primary{border:0;color:#12162e;background:linear-gradient(135deg,var(--blue),var(--pink));box-shadow:0 11px 25px rgba(181,185,255,.2)}.btn.disabled{opacity:.52;pointer-events:none}.btn.tiny{min-height:36px;padding:0 11px;font-size:.82rem}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:28px}.stat{padding:13px;border:1px solid var(--line2);border-radius:14px;background:rgba(255,255,255,.04)}.stat strong{display:block;font-size:1.03rem}.stat span{color:var(--soft);font-size:.78rem}
+    .release-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.release-head h2{margin:0;font-size:1.24rem}.release-state{color:var(--mint);font-size:.78rem;font-weight:900}.asset-list{display:grid;gap:10px;margin-top:15px}.asset{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:13px;border:1px solid var(--line2);border-radius:15px;background:rgba(255,255,255,.045)}.asset-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(167,201,255,.14),rgba(245,169,209,.14));border:1px solid var(--line2)}.asset strong{display:block;font-size:.93rem}.asset small{display:block;color:var(--soft);margin-top:2px}.asset .btn{min-height:36px;padding:0 12px;font-size:.8rem}
+    section{padding:16px 0}.section-panel{padding:clamp(22px,3.5vw,34px);border-radius:var(--radius)}.section-title{display:flex;justify-content:space-between;gap:18px;align-items:end;margin-bottom:18px}.section-title h2{margin:0;font-size:clamp(1.5rem,3vw,2.15rem)}.section-title p{margin:5px 0 0;color:var(--muted);max-width:750px}.section-tag{color:var(--soft);font-size:.82rem;white-space:nowrap}
+    .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.feature{padding:18px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line2)}.feature i{color:var(--blue);font-size:1.1rem}.feature h3{margin:10px 0 5px;font-size:1rem}.feature p{margin:0;color:var(--muted);font-size:.88rem}
+    .download-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.download-card{display:flex;flex-direction:column;min-height:230px;padding:20px;border-radius:18px;border:1px solid var(--line2);background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.025))}.download-card .label{color:var(--pink);font-size:.72rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}.download-card h3{margin:9px 0 7px}.download-card p{margin:0;color:var(--muted);font-size:.9rem}.download-card .filename{margin-top:15px;font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--soft);word-break:break-all}.download-card .buttons{margin-top:auto;padding-top:18px}
+    .install-grid{display:grid;grid-template-columns:220px 1fr;gap:15px}.tabs{display:grid;align-content:start;gap:7px}.tab{border:1px solid var(--line2);border-radius:13px;background:rgba(255,255,255,.04);color:var(--muted);text-align:left;padding:12px 13px;cursor:pointer;font-weight:800}.tab.active{color:white;background:linear-gradient(135deg,rgba(167,201,255,.12),rgba(245,169,209,.12));border-color:rgba(255,255,255,.18)}.tab-panel{display:none}.tab-panel.active{display:block}.codebox{overflow:hidden;border:1px solid var(--line2);border-radius:15px;background:#0c1020}.codehead{height:43px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-bottom:1px solid var(--line2);color:var(--soft);font-size:.8rem}.dots{display:flex;gap:5px}.dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2)}pre{margin:0;padding:17px;overflow:auto;font:500 .86rem/1.7 'JetBrains Mono',monospace;color:#e8ebff;white-space:pre-wrap}.install-note{margin-top:12px;color:var(--muted);font-size:.9rem}
+    .docs-layout{display:grid;grid-template-columns:290px minmax(0,1fr);gap:13px;min-height:720px}.docs-sidebar{border:1px solid var(--line2);border-radius:18px;background:rgba(8,11,27,.6);overflow:hidden;display:flex;flex-direction:column;max-height:78vh;position:sticky;top:88px}.docs-sidebar-head{padding:13px;border-bottom:1px solid var(--line2)}.search{width:100%;height:40px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.055);color:white;padding:0 12px;outline:none}.search:focus{border-color:rgba(167,201,255,.5);box-shadow:0 0 0 3px rgba(167,201,255,.08)}.lang-row{display:flex;gap:6px;margin-top:9px}.lang{flex:1;padding:7px;border:1px solid var(--line2);border-radius:9px;background:rgba(255,255,255,.035);color:var(--soft);cursor:pointer;font-size:.75rem;font-weight:900}.lang.active{background:rgba(167,201,255,.11);color:white}.doc-list{overflow:auto;padding:8px}.doc-item{display:block;width:100%;padding:10px;border:0;border-radius:10px;background:transparent;color:var(--muted);text-align:left;cursor:pointer;font-size:.82rem;line-height:1.35}.doc-item:hover{background:rgba(255,255,255,.055);color:white}.doc-item.active{background:linear-gradient(135deg,rgba(167,201,255,.12),rgba(245,169,209,.09));color:#fff}.doc-item small{display:block;margin-top:3px;color:var(--soft);font-size:.68rem}.docs-viewer{min-width:0;border:1px solid var(--line2);border-radius:18px;background:rgba(10,13,29,.72);overflow:hidden}.viewer-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line2);background:rgba(255,255,255,.025);position:sticky;top:88px;z-index:5;backdrop-filter:blur(15px)}.viewer-path{min-width:0;font-family:'JetBrains Mono',monospace;font-size:.76rem;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.viewer-actions{display:flex;gap:7px}.md{padding:clamp(20px,4vw,42px);max-width:920px}.md-loading{color:var(--muted)}
+    .md h1,.md h2,.md h3,.md h4{letter-spacing:-.02em;line-height:1.25;scroll-margin-top:105px}.md h1{font-size:2rem;margin:0 0 22px}.md h2{font-size:1.45rem;margin:32px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--line2)}.md h3{font-size:1.15rem;margin:25px 0 9px}.md h4{font-size:1rem;margin:20px 0 8px}.md p,.md li{color:#d2d5eb}.md a{color:#a9ceff;text-decoration:underline;text-decoration-color:rgba(169,206,255,.35);text-underline-offset:3px}.md blockquote{margin:16px 0;padding:10px 15px;border-left:3px solid var(--violet);background:rgba(183,166,255,.065);border-radius:0 10px 10px 0}.md code{font-family:'JetBrains Mono',monospace;font-size:.86em;background:rgba(255,255,255,.07);border:1px solid var(--line2);padding:2px 5px;border-radius:6px}.md pre{margin:14px 0 20px;padding:0;border:1px solid var(--line2);border-radius:14px;background:#0b0f1e}.md pre code{display:block;padding:17px;border:0;background:transparent;overflow:auto;font-size:.82rem;white-space:pre}.md table{display:block;width:100%;overflow:auto;border-collapse:collapse;margin:16px 0}.md th,.md td{padding:9px 12px;border:1px solid var(--line2);text-align:left;font-size:.85rem}.md th{background:rgba(255,255,255,.055)}.md hr{border:0;border-top:1px solid var(--line2);margin:28px 0}.md img{max-width:100%;border-radius:12px}.md ul,.md ol{padding-left:24px}
+    .docs-error{padding:25px;color:var(--muted)}
+    .faq details{border:1px solid var(--line2);border-radius:14px;padding:14px 16px;background:rgba(255,255,255,.04)}.faq details+details{margin-top:8px}.faq summary{font-weight:900;cursor:pointer}.faq p{color:var(--muted);margin-bottom:0}
+    footer{padding:24px 0 42px;color:var(--soft);font-size:.84rem}.footer-box{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 20px;border-radius:18px}.footer-links{display:flex;gap:8px;flex-wrap:wrap}.footer-links a{padding:7px 9px;border-radius:9px}.footer-links a:hover{background:rgba(255,255,255,.06);color:white}
+    @media(max-width:1050px){.hero-grid{grid-template-columns:1fr}.feature-grid{grid-template-columns:repeat(2,1fr)}.download-grid{grid-template-columns:1fr}.docs-layout{grid-template-columns:250px 1fr}}
+    @media(max-width:820px){.nav a:not(.back){display:none}.stats{grid-template-columns:1fr}.install-grid{grid-template-columns:1fr}.tabs{grid-template-columns:repeat(3,1fr)}.tab{text-align:center}.docs-layout{grid-template-columns:1fr}.docs-sidebar{position:static;max-height:340px}.viewer-top{top:84px}.section-title{align-items:start;flex-direction:column;gap:5px}.section-tag{white-space:normal}}
+    @media(max-width:560px){.wrap{width:min(100% - 20px,var(--max))}.hero{padding-top:38px}.panel,.section-panel{padding:19px}.topbar{border-radius:16px}.brand small{display:none}.asset{grid-template-columns:38px 1fr}.asset .btn{grid-column:1/-1}.feature-grid{grid-template-columns:1fr}.tabs{grid-template-columns:1fr}.viewer-top{align-items:flex-start;flex-direction:column}.md{padding:18px}.footer-box{flex-direction:column;align-items:flex-start}}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
 <body>
-  <div class="petals" aria-hidden="true"></div>
-
-  <div class="nav-wrap container">
-    <nav class="glass">
-      <div class="brand">
-        <div class="brand-mark">MCW</div>
-        <div class="brand-text">
-          <div class="brand-title">MCW Launcher Core</div>
-          <div class="brand-subtitle">Anime-style landing page · downloads · docs · install guide</div>
-        </div>
-      </div>
-      <div class="nav-links">
-        <a href="#overview">Overview</a>
-        <a href="#downloads">Downloads</a>
-        <a href="#installation">Installation</a>
-        <a href="#docs">Docs</a>
-        <a href="#faq">FAQ</a>
-      </div>
-    </nav>
-  </div>
-
-  <header class="hero container">
-    <div class="hero-grid">
-      <div class="hero-card glass">
-        <div class="eyebrow">✦ Core Distribution • Python Package • Source & Docs</div>
-        <h1>Download and explore <br> <span style="background: linear-gradient(135deg, #ffffff, #a7c8ff, #ffb5e5); -webkit-background-clip: text; background-clip: text; color: transparent;">MCW Launcher Core</span></h1>
-        <p class="hero-lead">
-          A polished one-page portal for your Core package: project introduction, direct downloads,
-          docs navigation, installation commands, package overview, developer quick-start, troubleshooting,
-          and release notes — all wrapped in an anime-inspired glassmorphism style.
-        </p>
-
-        <div class="hero-highlight">
-          <strong>Designed for easy editing:</strong>
-          this page is intentionally built so you can swap the background image quickly, update version info in one place,
-          and replace download links without redesigning the entire layout.
-        </div>
-
-        <div class="button-row">
-          <a class="btn btn-primary" href="#downloads">⬇ Download Core</a>
-          <a class="btn btn-ghost" href="#docs">📚 Open Docs Section</a>
-          <a class="btn btn-ghost" href="#installation">⚙ Installation Guide</a>
-        </div>
-
-        <div class="hero-stats">
-          <div class="mini-stat">
-            <strong id="stat-version">v1.5.0</strong>
-            <span>Current stable target</span>
-          </div>
-          <div class="mini-stat">
-            <strong>Python</strong>
-            <span>Wheel + source friendly</span>
-          </div>
-          <div class="mini-stat">
-            <strong>Docs Hub</strong>
-            <span>Install, API, troubleshooting</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="stack">
-        <div class="side-card glass">
-          <div class="version-chip">● Current release</div>
-          <h3 style="margin: 0 0 10px; font-size: 1.5rem;">Quick package snapshot</h3>
-          <p class="card-body">
-            Use this panel to present the most important assets visitors need first: the package wheel,
-            full source, documentation pack, and repository entry point.
-          </p>
-
-          <div class="download-list">
-            <div class="download-item">
-              <div>
-                <div class="tiny-tag">Package</div>
-                <strong>mcw_core wheel</strong>
-                <div class="meta">Install locally or distribute internally.</div>
-              </div>
-              <a class="btn btn-primary" id="quick-wheel" href="#">Download</a>
-            </div>
-            <div class="download-item">
-              <div>
-                <div class="tiny-tag">Docs</div>
-                <strong>Documentation pack</strong>
-                <div class="meta">Guides, API reference, troubleshooting.</div>
-              </div>
-              <a class="btn" id="quick-docs-zip" href="#">Download</a>
-            </div>
-            <div class="download-item">
-              <div>
-                <div class="tiny-tag">Source</div>
-                <strong>Full source + docs</strong>
-                <div class="meta">Best for developers and maintainers.</div>
-              </div>
-              <a class="btn" id="quick-source" href="#">Download</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="side-card glass">
-          <h3 style="margin: 0 0 10px; font-size: 1.35rem;">What this page includes</h3>
-          <ul class="feature-list">
-            <li>Project summary and feature highlights</li>
-            <li>Download cards for wheel, docs, source, and GitHub</li>
-            <li>Install instructions for pip, wheel, and source</li>
-            <li>Docs hub with guide, API reference, troubleshooting, release notes</li>
-            <li>FAQ and getting-started recommendations</li>
-            <li>Built-in background image switcher for quick customization</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section id="overview">
-      <div class="section-card glass">
-        <h2 class="section-heading">Overview</h2>
-        <p class="section-subtitle">
-          MCW Launcher Core can be presented here as the reusable engine layer behind your launcher ecosystem:
-          installation flows, package consumption, source distribution, documentation reading, and future developer onboarding.
-          Edit the text below to match the exact positioning you want for the project.
-        </p>
-        <div class="grid-3">
-          <div class="section-card glass">
-            <div class="icon-badge">🌸</div>
-            <h3 class="card-title">Project Introduction</h3>
-            <p class="card-body">
-              Introduce what MCW Launcher Core is, who it is for, and why it exists.
-              This section works well for users discovering the package for the first time.
-            </p>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">📦</div>
-            <h3 class="card-title">Distribution Ready</h3>
-            <p class="card-body">
-              Present wheel distribution, full source archives, release bundles, and downloadable documentation
-              in a unified location with consistent call-to-action buttons.
-            </p>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">🧭</div>
-            <h3 class="card-title">Documentation First</h3>
-            <p class="card-body">
-              Help visitors navigate install guides, API references, architecture notes,
-              troubleshooting guides, and release notes without digging through repo folders.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="downloads">
-      <div class="section-card glass">
-        <h2 class="section-heading">Downloads</h2>
-        <p class="section-subtitle">
-          Replace the links below with your actual hosted files, GitHub release URLs, local package links,
-          or internal distribution endpoints.
-        </p>
-        <div class="grid-2">
-          <div class="section-card glass">
-            <div class="tiny-tag">Primary package</div>
-            <h3 class="card-title">Wheel package</h3>
-            <p class="card-body">Recommended for users who want to install the package directly without unpacking the full source tree.</p>
-            <div class="pill-row">
-              <span class="pill">File: <span id="wheel-name">mcw_core-1.5.0-py3-none-any.whl</span></span>
-              <span class="pill">Use case: quick install</span>
-            </div>
-            <div class="button-row">
-              <a class="btn btn-primary" id="wheel-link" href="#">Download wheel</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="tiny-tag">Documentation</div>
-            <h3 class="card-title">Docs pack</h3>
-            <p class="card-body">Includes guides, API reference, architecture notes, troubleshooting, and documentation metadata.</p>
-            <div class="pill-row">
-              <span class="pill">File: <span id="docs-name">MCW-Core-v1.5.0-docs.zip</span></span>
-              <span class="pill">Use case: offline reading</span>
-            </div>
-            <div class="button-row">
-              <a class="btn btn-primary" id="docs-link" href="#">Download docs</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="tiny-tag">Source bundle</div>
-            <h3 class="card-title">Full source + complete docs</h3>
-            <p class="card-body">Best choice for contributors, maintainers, and advanced users who want the entire project snapshot.</p>
-            <div class="pill-row">
-              <span class="pill">File: <span id="source-name">MCW-Core-v1.5.0-full-source-with-complete-docs.zip</span></span>
-              <span class="pill">Use case: development</span>
-            </div>
-            <div class="button-row">
-              <a class="btn btn-primary" id="source-link" href="#">Download full source</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="tiny-tag">Repository</div>
-            <h3 class="card-title">GitHub repository</h3>
-            <p class="card-body">Ideal when you want to browse the public project page, clone the repository, or inspect commit history.</p>
-            <div class="pill-row">
-              <span class="pill">Host: GitHub</span>
-              <span class="pill">Use case: browse and clone</span>
-            </div>
-            <div class="button-row">
-              <a class="btn btn-primary" id="github-link" href="#" target="_blank" rel="noreferrer">Open repository</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="installation">
-      <div class="section-card glass">
-        <h2 class="section-heading">Installation</h2>
-        <p class="section-subtitle">
-          This section is structured as tabs so visitors can quickly choose the installation route that matches their workflow.
-        </p>
-
-        <div class="tabs" role="tablist" aria-label="Installation methods">
-          <button class="tab-button active" data-tab="pip">pip install</button>
-          <button class="tab-button" data-tab="wheel">Install from wheel</button>
-          <button class="tab-button" data-tab="source">Run from source</button>
-        </div>
-
-        <div class="tab-panel active" id="tab-pip">
-          <div class="grid-2">
-            <div>
-              <h3 class="card-title">Install with pip</h3>
-              <p class="card-body">Use this if the package is available on an index or internal package feed.</p>
-              <div class="code-panel">
-                <div class="code-head">
-                  <strong>Command</strong>
-                  <button class="btn small copy-btn" data-copy="pip install mcw-core">Copy</button>
-                </div>
-                <pre>pip install mcw-core</pre>
-              </div>
-            </div>
-            <div>
-              <h3 class="card-title">Recommended notes</h3>
-              <ul class="soft-list">
-                <li>Use a virtual environment for cleaner dependency isolation.</li>
-                <li>Pin an exact version when reproducing builds.</li>
-                <li>Document Python version requirements on your release page.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="tab-wheel">
-          <div class="grid-2">
-            <div>
-              <h3 class="card-title">Install from a local wheel</h3>
-              <p class="card-body">Use this when distributing the `.whl` file directly.</p>
-              <div class="code-panel">
-                <div class="code-head">
-                  <strong>Command</strong>
-                  <button class="btn small copy-btn" data-copy="pip install ./mcw_core-1.5.0-py3-none-any.whl">Copy</button>
-                </div>
-                <pre>pip install ./mcw_core-1.5.0-py3-none-any.whl</pre>
-              </div>
-            </div>
-            <div>
-              <h3 class="card-title">When to use this</h3>
-              <ul class="soft-list">
-                <li>Offline or internal deployment.</li>
-                <li>Testing the exact release artifact before public publication.</li>
-                <li>Controlled distribution in a local environment.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-panel" id="tab-source">
-          <div class="grid-2">
-            <div>
-              <h3 class="card-title">Run from source</h3>
-              <p class="card-body">Use the full source archive or clone from the repository, then install in editable mode if needed.</p>
-              <div class="code-panel">
-                <div class="code-head">
-                  <strong>Commands</strong>
-                  <button class="btn small copy-btn" data-copy="git clone https://github.com/mahiru7229/mcw-launcher-core.git\ncd mcw-launcher-core\npip install -e .">Copy</button>
-                </div>
-                <pre>git clone https://github.com/mahiru7229/mcw-launcher-core.git
+<div class="bg" aria-hidden="true"></div><div class="petals" aria-hidden="true"></div>
+<div class="topbar-wrap wrap"><nav class="topbar glass"><a class="brand" href="./"><span class="logo">MCW</span><span><strong>Launcher Core</strong><small>headless runtime · Python API</small></span></a><div class="nav"><a href="#download">Download</a><a href="#install">Install</a><a href="#docs">Docs</a><a href="#faq">FAQ</a><a class="back" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Card</a></div></nav></div>
+<header class="hero wrap"><div class="hero-grid">
+  <section class="panel glass"><span class="badge"><i class="fa-solid fa-circle"></i> Stable Core <span id="hero-version">v1.5.0</span></span><h1>MCW Launcher<br><span class="grad">Core</span></h1><p class="lead">The reusable, headless runtime behind MCW Launcher. Download the package, install from source, browse the public API, or read the documentation directly from the Core repository without leaving this page.</p><div class="buttons"><a id="hero-download" class="btn primary" href="#download"><i class="fa-solid fa-download"></i> Download Core</a><a class="btn" href="#docs"><i class="fa-solid fa-book-open"></i> Read Docs</a><a class="btn" href="https://github.com/mahiru7229/mcw-launcher-core" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i> Repository</a></div><div class="stats"><div class="stat"><strong>Public API</strong><span><code>mcw_core</code> + <code>mcw_core.api.*</code></span></div><div class="stat"><strong>Cross-platform</strong><span>Windows · Linux workflows</span></div><div class="stat"><strong>Live docs</strong><span>Rendered from GitHub repository</span></div></div></section>
+  <aside class="panel glass"><div class="release-head"><h2>Release assets</h2><span class="release-state" id="release-state">checking GitHub…</span></div><div class="asset-list"><div class="asset"><span class="asset-icon"><i class="fa-brands fa-python"></i></span><span><strong>Python wheel</strong><small id="wheel-meta">mcw_core package</small></span><a id="wheel-btn" class="btn disabled" href="#">Loading</a></div><div class="asset"><span class="asset-icon"><i class="fa-solid fa-file-zipper"></i></span><span><strong>Full source</strong><small id="source-meta">complete Core source</small></span><a id="source-btn" class="btn" href="https://github.com/mahiru7229/mcw-launcher-core/archive/refs/heads/main.zip">Source ZIP</a></div><div class="asset"><span class="asset-icon"><i class="fa-solid fa-book"></i></span><span><strong>Documentation</strong><small>read live or download release docs</small></span><a id="docs-asset-btn" class="btn" href="#docs">Read docs</a></div></div></aside>
+</div></header>
+<main class="wrap">
+<section id="overview"><div class="section-panel glass"><div class="section-title"><div><h2>Built as a reusable Core</h2><p>The project keeps GUI concerns outside the Core and exposes a stable consumer boundary through <code>mcw_core</code> and granular <code>mcw_core.api.*</code> modules.</p></div><span class="section-tag">MCW Core architecture</span></div><div class="feature-grid"><article class="feature"><i class="fa-solid fa-boxes-stacked"></i><h3>Instance workflows</h3><p>Create, inspect, import, export, repair and manage Minecraft instances.</p></article><article class="feature"><i class="fa-solid fa-layer-group"></i><h3>Loader support</h3><p>Vanilla and mod-loader oriented workflows through Core services.</p></article><article class="feature"><i class="fa-solid fa-mug-hot"></i><h3>Java & launch</h3><p>Runtime selection, launch preparation, diagnostics and launch orchestration.</p></article><article class="feature"><i class="fa-solid fa-puzzle-piece"></i><h3>Content ecosystem</h3><p>Modrinth, CurseForge, modpack and content-management integrations.</p></article></div></div></section>
+<section id="download"><div class="section-panel glass"><div class="section-title"><div><h2>Download</h2><p>Release assets are resolved automatically from GitHub when available. Source ZIP always falls back to the current <code>main</code> branch.</p></div><span class="section-tag" id="release-name">Core v1.5.0</span></div><div class="download-grid"><article class="download-card"><span class="label">Recommended package</span><h3>Python wheel</h3><p>Use the exact release wheel for local installation or launcher integration.</p><div class="filename" id="wheel-file">mcw_core-1.5.0-py3-none-any.whl</div><div class="buttons"><a id="wheel-download" class="btn primary disabled" href="#"><i class="fa-solid fa-download"></i> Find release asset</a></div></article><article class="download-card"><span class="label">Complete source</span><h3>Full source archive</h3><p>Use the release full-source bundle when available, otherwise download the latest repository source.</p><div class="filename" id="full-source-file">MCW-Core-v1.5.0-full-source.zip</div><div class="buttons"><a id="full-source-download" class="btn primary" href="https://github.com/mahiru7229/mcw-launcher-core/archive/refs/heads/main.zip"><i class="fa-solid fa-file-arrow-down"></i> Download source</a></div></article><article class="download-card"><span class="label">Documentation</span><h3>Docs & API reference</h3><p>Read Markdown directly from the Core repository below. If a docs ZIP exists in a release, its download button appears automatically.</p><div class="filename" id="docs-file">docs/ · README.md · RELEASE.md</div><div class="buttons"><a class="btn primary" href="#docs"><i class="fa-solid fa-book-open"></i> Read online</a><a id="docs-download" class="btn disabled" href="#">No docs asset</a></div></article></div></div></section>
+<section id="install"><div class="section-panel glass"><div class="section-title"><div><h2>Installation</h2><p>Pick the workflow that matches how you consume MCW Core.</p></div><span class="section-tag">Python</span></div><div class="install-grid"><div class="tabs"><button class="tab active" data-tab="wheel">Release wheel</button><button class="tab" data-tab="source">Development</button><button class="tab" data-tab="cli">CLI example</button></div><div><div class="tab-panel active" id="tab-wheel"><div class="codebox"><div class="codehead"><span class="dots"><span></span><span></span><span></span></span><button class="btn tiny copy" data-copy="python -m pip install ./mcw_core-1.5.0-py3-none-any.whl">Copy</button></div><pre>python -m pip install ./mcw_core-1.5.0-py3-none-any.whl</pre></div><p class="install-note">Download the wheel from the latest release first. A virtual environment is recommended.</p></div><div class="tab-panel" id="tab-source"><div class="codebox"><div class="codehead"><span class="dots"><span></span><span></span><span></span></span><button class="btn tiny copy" data-copy="git clone https://github.com/mahiru7229/mcw-launcher-core.git\ncd mcw-launcher-core\npython -m venv .venv\npython -m pip install -e '.[dev]'\npython -m pytest test -q">Copy</button></div><pre>git clone https://github.com/mahiru7229/mcw-launcher-core.git
 cd mcw-launcher-core
-pip install -e .</pre>
-              </div>
-            </div>
-            <div>
-              <h3 class="card-title">Developer workflow tips</h3>
-              <ul class="soft-list">
-                <li>Keep release notes and docs in sync with source tags.</li>
-                <li>Expose a quick test command here if your project uses one.</li>
-                <li>Add build or packaging notes for contributors.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+python -m venv .venv
+python -m pip install -e '.[dev]'
+python -m pytest test -q</pre></div><p class="install-note">Activate the venv before installing. On Windows PowerShell use <code>.\.venv\Scripts\Activate.ps1</code>.</p></div><div class="tab-panel" id="tab-cli"><div class="codebox"><div class="codehead"><span class="dots"><span></span><span></span><span></span></span><button class="btn tiny copy" data-copy="mcw-core-launch --root ./mcw-data --list\nmcw-core-launch --root ./mcw-data --instance &quot;My Instance&quot; --username Player">Copy</button></div><pre>mcw-core-launch --root ./mcw-data --list
+mcw-core-launch --root ./mcw-data --instance "My Instance" --username Player</pre></div><p class="install-note">The CLI can list or launch instances without the MCW Launcher GUI.</p></div></div></div></div></section>
+<section id="docs"><div class="section-panel glass"><div class="section-title"><div><h2>Documentation reader</h2><p>Markdown files are discovered from <strong>mahiru7229/mcw-launcher-core</strong> and rendered here. Commit new docs to the Core repo and this reader picks them up automatically.</p></div><span class="section-tag" id="docs-status">connecting…</span></div><div class="docs-layout"><aside class="docs-sidebar"><div class="docs-sidebar-head"><input class="search" id="doc-search" type="search" placeholder="Search docs…" aria-label="Search docs"><div class="lang-row"><button class="lang active" data-lang="all">All</button><button class="lang" data-lang="en">EN</button><button class="lang" data-lang="vi">VI</button></div></div><div class="doc-list" id="doc-list"><div class="docs-error">Loading repository docs…</div></div></aside><article class="docs-viewer"><div class="viewer-top"><div class="viewer-path" id="viewer-path">Select a document</div><div class="viewer-actions"><a class="btn tiny" id="viewer-github" href="https://github.com/mahiru7229/mcw-launcher-core" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i> GitHub</a><button class="btn tiny" id="copy-doc-link"><i class="fa-solid fa-link"></i> Copy link</button></div></div><div class="md" id="doc-content"><p class="md-loading">Loading documentation…</p></div></article></div></div></section>
+<section id="faq"><div class="section-panel glass faq"><div class="section-title"><div><h2>FAQ</h2><p>Quick notes about downloads, docs and background customization.</p></div></div><details open><summary>How does the docs reader stay updated?</summary><p>It queries the public Core repository tree, finds Markdown files under <code>docs/</code> plus key root docs, then fetches and renders the selected file from the repository's <code>main</code> branch.</p></details><details><summary>How do I change this Core page background?</summary><p>Add or replace <code>mcw_core/assets/background.jpg</code> in this website repository. If the file exists, it is used automatically. If it is absent or cannot load, the original gradient background is kept. There is no upload button on the website.</p></details><details><summary>How do I change the main card background?</summary><p>Add <code>assets/img/bg/custom_bg.jpg</code>. If it exists it overrides the card background; otherwise <code>assets/img/bg/user_bg.jpg</code> remains the default.</p></details><details><summary>Where should release downloads live?</summary><p>The page tries GitHub Releases first. A wheel, full-source archive, and docs bundle are matched by filename. If no matching release asset is available, source download falls back to the repository ZIP and other buttons direct users to Releases or live docs.</p></details></div></section>
+</main>
+<footer class="wrap"><div class="footer-box glass"><span>MCW Launcher Core · <span id="footer-version">v1.5.0</span></span><div class="footer-links"><a href="../index.html">mahiru7229</a><a href="../mcw-launcher/index.html">MCW Launcher</a><a href="https://github.com/mahiru7229/mcw-launcher-core" target="_blank" rel="noreferrer">GitHub</a></div></div></footer>
+<script>
+window.addEventListener('DOMContentLoaded',()=>{
+  const CFG={owner:'mahiru7229',repo:'mcw-launcher-core',branch:'main',fallbackVersion:'1.5.0',customBackground:'./assets/background.jpg'};
+  const apiBase=`https://api.github.com/repos/${CFG.owner}/${CFG.repo}`;
+  const rawBase=`https://raw.githubusercontent.com/${CFG.owner}/${CFG.repo}/${CFG.branch}/`;
 
-    <section id="docs">
-      <div class="section-card glass">
-        <div class="banner">
-          <div>
-            <h2 class="section-heading">Docs center</h2>
-            <p class="section-subtitle">
-              A curated gateway to the most important documents for users and contributors.
-              Replace or expand the entries below with your real internal document paths or hosted pages.
-            </p>
-            <div class="notice">
-              <strong>Tip:</strong> if you later split this into multiple HTML pages, keep this section as the main landing page and point each button to dedicated docs pages.
-            </div>
-          </div>
-          <div class="section-card glass">
-            <h3 class="card-title">Suggested docs structure</h3>
-            <ul class="soft-list">
-              <li>Complete guide</li>
-              <li>API reference</li>
-              <li>Architecture overview</li>
-              <li>Troubleshooting</li>
-              <li>Release notes</li>
-            </ul>
-          </div>
-        </div>
+  // Optional repo-controlled Core background. No user upload UI.
+  const bgProbe=new Image();
+  bgProbe.onload=()=>document.documentElement.style.setProperty('--bg-custom',`url('${CFG.customBackground}')`);
+  bgProbe.onerror=()=>document.documentElement.style.setProperty('--bg-custom','none');
+  bgProbe.src=CFG.customBackground;
 
-        <div class="grid-3" style="margin-top: 18px;">
-          <div class="section-card glass">
-            <div class="icon-badge">📘</div>
-            <h3 class="card-title">Complete guide</h3>
-            <p class="card-body">Ideal as the first reading path for users: installation, usage, package structure, and recommended flows.</p>
-            <div class="button-row">
-              <a class="btn" href="#">Open guide</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">🧩</div>
-            <h3 class="card-title">API reference</h3>
-            <p class="card-body">A reference entry point for public modules, classes, functions, and integration-facing APIs.</p>
-            <div class="button-row">
-              <a class="btn" href="#">Open API reference</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">🛠</div>
-            <h3 class="card-title">Troubleshooting</h3>
-            <p class="card-body">Collect common errors, dependency issues, platform notes, update problems, and recovery steps.</p>
-            <div class="button-row">
-              <a class="btn" href="#">Open troubleshooting</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">🏗</div>
-            <h3 class="card-title">Architecture</h3>
-            <p class="card-body">Explain core layers, responsibilities, package boundaries, and important design decisions.</p>
-            <div class="button-row">
-              <a class="btn" href="#">Open architecture docs</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">📝</div>
-            <h3 class="card-title">Release notes</h3>
-            <p class="card-body">Summarize version-to-version changes, breaking changes, migration notes, and compatibility information.</p>
-            <div class="button-row">
-              <a class="btn" href="#">Open release notes</a>
-            </div>
-          </div>
-          <div class="section-card glass">
-            <div class="icon-badge">🧪</div>
-            <h3 class="card-title">Developer notes</h3>
-            <p class="card-body">Place internal tips for maintainers: packaging, testing, doc generation, and release preflight checklists.</p>
-            <div class="button-row">
-              <a class="btn" href="#">Open developer notes</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const setText=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v};
+  const setHref=(id,v)=>{const e=document.getElementById(id);if(e){e.href=v;e.classList.remove('disabled')}};
+  const filename=a=>a?.name||'';
+  function size(n){if(!Number.isFinite(n))return '';const u=['B','KB','MB','GB'];let i=0;while(n>=1024&&i<u.length-1){n/=1024;i++}return `${n.toFixed(i?1:0)} ${u[i]}`}
 
-    <section id="getting-started">
-      <div class="grid-2">
-        <div class="section-card glass">
-          <h2 class="section-heading">Getting started</h2>
-          <p class="section-subtitle">A simple onboarding flow helps first-time users know where to begin.</p>
-          <div class="timeline">
-            <div class="timeline-item">
-              <div class="step-badge">1</div>
-              <div>
-                <h3 class="card-title">Choose a distribution</h3>
-                <p class="card-body">Pick the wheel if you only need installation, or the full source bundle if you want everything including docs.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="step-badge">2</div>
-              <div>
-                <h3 class="card-title">Install using your preferred method</h3>
-                <p class="card-body">Use pip, install from the wheel, or run from source based on your workflow.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="step-badge">3</div>
-              <div>
-                <h3 class="card-title">Read the docs hub</h3>
-                <p class="card-body">Open the guide, API reference, and troubleshooting pages for a smoother onboarding experience.</p>
-              </div>
-            </div>
-            <div class="timeline-item">
-              <div class="step-badge">4</div>
-              <div>
-                <h3 class="card-title">Move into development or integration</h3>
-                <p class="card-body">Clone or unpack the source if you need to build on top of MCW Launcher Core.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="section-card glass">
-          <h2 class="section-heading">What to customize</h2>
-          <p class="section-subtitle">This page is intentionally easy to adapt to your exact release workflow.</p>
-          <ul class="feature-list">
-            <li>Change the background by replacing <code>./assets/background.jpg</code></li>
-            <li>Update all download URLs in the single <code>CONFIG</code> object</li>
-            <li>Edit the hero description and project overview text</li>
-            <li>Replace placeholder docs links with real hosted pages or local HTML files</li>
-            <li>Adjust version labels and package names from one location</li>
-            <li>Optionally split sections into multiple pages later</li>
-          </ul>
-
-          <div class="code-panel" style="margin-top: 18px;">
-            <div class="code-head">
-              <strong>Fast background replacement</strong>
-            </div>
-            <pre>1. Put your image at: ./assets/background.jpg
-2. Keep the same file name for the easiest swap.
-3. Or update CONFIG.backgroundImage in the script section.</pre>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="faq">
-      <div class="section-card glass">
-        <h2 class="section-heading">FAQ</h2>
-        <p class="section-subtitle">Use this area to answer the most common visitor questions.</p>
-
-        <details open>
-          <summary>Can I use this as a standalone single HTML page?</summary>
-          <p>Yes. This file is fully self-contained except for the optional background image path. It works as a single landing page and can later grow into a multi-page docs portal.</p>
-        </details>
-        <details>
-          <summary>How do I change the background image?</summary>
-          <p>The simplest method is replacing <code>./assets/background.jpg</code> with your own image. You can also use the built-in background picker at the bottom-right of the page for previewing another image locally.</p>
-        </details>
-        <details>
-          <summary>Where do I update download links and file names?</summary>
-          <p>At the bottom of the HTML there is a single JavaScript <code>CONFIG</code> object. Edit the package version, file names, and links there once, and the page updates the main buttons automatically.</p>
-        </details>
-        <details>
-          <summary>Can this page host separate docs pages later?</summary>
-          <p>Absolutely. Replace the placeholder docs buttons with paths such as <code>docs/index.html</code>, <code>docs/api.html</code>, or your hosted documentation URLs.</p>
-        </details>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="section-card glass">
-        <strong>MCW Launcher Core</strong>
-        <p class="muted" style="margin: 8px 0 0;">
-          Anime-inspired project landing page template for downloads, docs, installation, and onboarding.
-          Customize the content, links, file names, and background image to match your actual release workflow.
-        </p>
-      </div>
-    </footer>
-  </main>
-
-  <div class="utility-bar">
-    <div class="utility-card glass">
-      <h4>Background quick switch</h4>
-      <p>Preview another image without editing the HTML permanently.</p>
-      <input type="file" id="bg-file" accept="image/*" />
-      <input type="url" id="bg-url" placeholder="Or paste an image URL here" />
-      <div class="utility-actions">
-        <button class="btn small" id="apply-url">Apply URL</button>
-        <button class="btn small" id="reset-bg">Reset</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const CONFIG = {
-      projectName: 'MCW Launcher Core',
-      version: '1.5.0',
-      backgroundImage: './assets/background.jpg',
-      downloads: {
-        wheelName: 'mcw_core-1.5.0-py3-none-any.whl',
-        docsName: 'MCW-Core-v1.5.0-docs.zip',
-        sourceName: 'MCW-Core-v1.5.0-full-source-with-complete-docs.zip',
-        wheelUrl: './downloads/mcw_core-1.5.0-py3-none-any.whl',
-        docsUrl: './downloads/MCW-Core-v1.5.0-docs.zip',
-        sourceUrl: './downloads/MCW-Core-v1.5.0-full-source-with-complete-docs.zip',
-        githubUrl: 'https://github.com/mahiru7229/mcw-launcher-core'
-      }
-    };
-
-    function setText(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = value;
+  async function loadRelease(){
+    const state=$('#release-state');
+    try{
+      const r=await fetch(`${apiBase}/releases/latest`,{headers:{Accept:'application/vnd.github+json'}});
+      if(!r.ok)throw new Error('no latest release');
+      const rel=await r.json(); const version=(rel.tag_name||CFG.fallbackVersion).replace(/^v/i,'');
+      setText('hero-version',`v${version}`); setText('footer-version',`v${version}`); setText('release-name',rel.name||`Core v${version}`); state.textContent=rel.tag_name||'latest';
+      const assets=rel.assets||[];
+      const wheel=assets.find(a=>/\.whl$/i.test(filename(a)));
+      const full=assets.find(a=>/(full[-_ ]?source|source.*complete|complete.*source).*\.zip$/i.test(filename(a))) || assets.find(a=>/source.*\.zip$/i.test(filename(a)));
+      const docs=assets.find(a=>/docs?.*\.zip$/i.test(filename(a)));
+      if(wheel){setHref('wheel-btn',wheel.browser_download_url);setHref('wheel-download',wheel.browser_download_url);setText('wheel-btn','Download');setText('wheel-file',wheel.name);setText('wheel-meta',`${wheel.name} · ${size(wheel.size)}`)}
+      else {['wheel-btn','wheel-download'].forEach(id=>{const e=document.getElementById(id);if(e){e.href=`https://github.com/${CFG.owner}/${CFG.repo}/releases`;e.classList.remove('disabled');e.textContent='Open Releases'}})}
+      if(full){setHref('source-btn',full.browser_download_url);setHref('full-source-download',full.browser_download_url);setText('source-btn','Download');setText('full-source-file',full.name);setText('source-meta',`${full.name} · ${size(full.size)}`)}
+      if(docs){setHref('docs-download',docs.browser_download_url);setText('docs-download','Download docs');setText('docs-file',docs.name)}
+    }catch(err){state.textContent='repository source'; const rel=`https://github.com/${CFG.owner}/${CFG.repo}/releases`;
+      ['wheel-btn','wheel-download'].forEach(id=>{const e=document.getElementById(id);if(e){e.href=rel;e.classList.remove('disabled');e.textContent='Open Releases'}});
     }
+  }
+  loadRelease();
 
-    function setHref(id, value) {
-      const el = document.getElementById(id);
-      if (el) el.href = value;
-    }
+  $$('.tab').forEach(b=>b.addEventListener('click',()=>{$$('.tab').forEach(x=>x.classList.remove('active'));$$('.tab-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(`#tab-${b.dataset.tab}`)?.classList.add('active')}));
+  $$('.copy').forEach(b=>b.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(b.dataset.copy||'');const old=b.textContent;b.textContent='Copied';setTimeout(()=>b.textContent=old,1200)}catch{}}));
 
-    function applyConfig() {
-      document.title = `${CONFIG.projectName} — Download, Docs & Installation`;
-      document.documentElement.style.setProperty('--bg-image', `url('${CONFIG.backgroundImage}')`);
+  let docs=[], currentPath='', lang='all';
+  const fallbackDocs=['README.md','RELEASE.md','CHANGELOG.md','docs/README.md','docs/MCW_CORE_LIBRARY.md','docs/CORE_ARCHITECTURE.md','docs/en/API_REFERENCE.md','docs/vi/API_REFERENCE.md','docs/vi/MCW_CORE_V1_5_COMPLETE_GUIDE.md','docs/vi/TROUBLESHOOTING.md'];
+  const niceTitle=p=>p.replace(/^docs\//,'').replace(/\.md$/i,'').split('/').pop().replace(/[_-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+  const docLang=p=>p.startsWith('docs/vi/')?'vi':p.startsWith('docs/en/')?'en':'all';
+  const priority=p=>{const order=['docs/README.md','README.md','docs/vi/MCW_CORE_V1_5_COMPLETE_GUIDE.md','docs/MCW_CORE_LIBRARY.md','docs/CORE_ARCHITECTURE.md','docs/en/API_REFERENCE.md','docs/vi/API_REFERENCE.md','docs/vi/TROUBLESHOOTING.md','RELEASE.md','CHANGELOG.md'];const i=order.indexOf(p);return i<0?100:i};
 
-      setText('stat-version', `v${CONFIG.version}`);
-      setText('wheel-name', CONFIG.downloads.wheelName);
-      setText('docs-name', CONFIG.downloads.docsName);
-      setText('source-name', CONFIG.downloads.sourceName);
+  async function discoverDocs(){
+    try{
+      const r=await fetch(`${apiBase}/git/trees/${encodeURIComponent(CFG.branch)}?recursive=1`,{headers:{Accept:'application/vnd.github+json'}});if(!r.ok)throw new Error('tree unavailable');const data=await r.json();
+      docs=(data.tree||[]).filter(x=>x.type==='blob'&&/\.md$/i.test(x.path)&&(x.path.startsWith('docs/')||['README.md','RELEASE.md','CHANGELOG.md'].includes(x.path))).map(x=>x.path);
+      if(!docs.length)docs=fallbackDocs;
+    }catch{docs=fallbackDocs}
+    docs=[...new Set(docs)].sort((a,b)=>priority(a)-priority(b)||a.localeCompare(b)); setText('docs-status',`${docs.length} Markdown files`); renderDocList();
+    const requested=new URLSearchParams(location.search).get('doc'); const initial=docs.includes(requested)?requested:(docs.includes('docs/README.md')?'docs/README.md':'README.md'); loadDoc(initial,false);
+  }
 
-      setHref('wheel-link', CONFIG.downloads.wheelUrl);
-      setHref('docs-link', CONFIG.downloads.docsUrl);
-      setHref('source-link', CONFIG.downloads.sourceUrl);
-      setHref('github-link', CONFIG.downloads.githubUrl);
-
-      setHref('quick-wheel', CONFIG.downloads.wheelUrl);
-      setHref('quick-docs-zip', CONFIG.downloads.docsUrl);
-      setHref('quick-source', CONFIG.downloads.sourceUrl);
-    }
-
-    applyConfig();
-
-    document.querySelectorAll('.tab-button').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
-        button.classList.add('active');
-        document.getElementById(`tab-${button.dataset.tab}`).classList.add('active');
-      });
-    });
-
-    document.querySelectorAll('.copy-btn').forEach(button => {
-      button.addEventListener('click', async () => {
-        const text = button.dataset.copy || '';
-        try {
-          await navigator.clipboard.writeText(text);
-          const old = button.textContent;
-          button.textContent = 'Copied';
-          setTimeout(() => button.textContent = old, 1200);
-        } catch {
-          alert('Copy failed. Please copy manually.');
-        }
-      });
-    });
-
-    const bgFile = document.getElementById('bg-file');
-    const bgUrl = document.getElementById('bg-url');
-    const applyUrl = document.getElementById('apply-url');
-    const resetBg = document.getElementById('reset-bg');
-
-    bgFile?.addEventListener('change', event => {
-      const file = event.target.files?.[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        document.documentElement.style.setProperty('--bg-image', `url('${e.target.result}')`);
-      };
-      reader.readAsDataURL(file);
-    });
-
-    applyUrl?.addEventListener('click', () => {
-      const url = bgUrl.value.trim();
-      if (!url) return;
-      document.documentElement.style.setProperty('--bg-image', `url('${url}')`);
-    });
-
-    resetBg?.addEventListener('click', () => {
-      bgFile.value = '';
-      bgUrl.value = '';
-      document.documentElement.style.setProperty('--bg-image', `url('${CONFIG.backgroundImage}')`);
-    });
-  </script>
+  function renderDocList(){const q=($('#doc-search')?.value||'').toLowerCase();const list=$('#doc-list');const filtered=docs.filter(p=>(lang==='all'||docLang(p)===lang||docLang(p)==='all')&&(p.toLowerCase().includes(q)||niceTitle(p).toLowerCase().includes(q)));list.innerHTML='';if(!filtered.length){list.innerHTML='<div class="docs-error">No matching documents.</div>';return}for(const p of filtered){const b=document.createElement('button');b.className='doc-item'+(p===currentPath?' active':'');b.innerHTML=`${escapeHtml(niceTitle(p))}<small>${escapeHtml(p)}</small>`;b.onclick=()=>loadDoc(p,true);list.appendChild(b)}}
+  function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function normalizeRelative(base,href){if(!href||/^(https?:|mailto:|#|data:)/i.test(href))return null;const parts=base.split('/');parts.pop();for(const x of href.split('/')){if(x==='.'||x==='')continue;if(x==='..')parts.pop();else parts.push(x)}return parts.join('/')}
+  function renderMarkdown(text,path){
+    if(window.marked){marked.setOptions({gfm:true,breaks:false});let html=marked.parse(text);if(window.DOMPurify)html=DOMPurify.sanitize(html,{ADD_ATTR:['target']});return html}
+    return `<pre>${escapeHtml(text)}</pre>`;
+  }
+  async function loadDoc(path,push=true){if(!path)return;currentPath=path;renderDocList();setText('viewer-path',path);$('#doc-content').innerHTML='<p class="md-loading">Loading '+escapeHtml(path)+'…</p>';$('#viewer-github').href=`https://github.com/${CFG.owner}/${CFG.repo}/blob/${CFG.branch}/${path}`;
+    try{const r=await fetch(rawBase+path);if(!r.ok)throw new Error(`${r.status} ${r.statusText}`);const text=await r.text();const content=$('#doc-content');content.innerHTML=renderMarkdown(text,path);
+      content.querySelectorAll('a[href]').forEach(a=>{const href=a.getAttribute('href');const resolved=normalizeRelative(path,href);if(resolved&&/\.md(?:#.*)?$/i.test(resolved)){const [p,hash]=resolved.split('#');a.href='#docs';a.onclick=e=>{e.preventDefault();loadDoc(p,true).then(()=>{if(hash)document.getElementById(hash)?.scrollIntoView({behavior:'smooth'})})}}else if(resolved){a.href=rawBase+resolved;a.target='_blank';a.rel='noreferrer'}else if(/^https?:/i.test(href||'')){a.target='_blank';a.rel='noreferrer'}});
+      content.querySelectorAll('img[src]').forEach(img=>{const src=img.getAttribute('src');const resolved=normalizeRelative(path,src);if(resolved)img.src=rawBase+resolved});
+      if(window.hljs)content.querySelectorAll('pre code').forEach(el=>hljs.highlightElement(el));
+      if(push){const u=new URL(location.href);u.searchParams.set('doc',path);history.pushState({doc:path},'',u)}
+    }catch(e){$('#doc-content').innerHTML=`<div class="docs-error"><strong>Could not load this document.</strong><br>${escapeHtml(String(e.message||e))}<br><br><a class="btn tiny" target="_blank" rel="noreferrer" href="https://github.com/${CFG.owner}/${CFG.repo}/blob/${CFG.branch}/${path}">Open on GitHub</a></div>`}
+  }
+  $('#doc-search')?.addEventListener('input',renderDocList);$$('.lang').forEach(b=>b.addEventListener('click',()=>{$$('.lang').forEach(x=>x.classList.remove('active'));b.classList.add('active');lang=b.dataset.lang;renderDocList()}));
+  $('#copy-doc-link')?.addEventListener('click',async()=>{const u=new URL(location.href);if(currentPath)u.searchParams.set('doc',currentPath);try{await navigator.clipboard.writeText(u.href);const b=$('#copy-doc-link');const old=b.innerHTML;b.textContent='Copied';setTimeout(()=>b.innerHTML=old,1200)}catch{}});
+  addEventListener('popstate',e=>{const p=e.state?.doc||new URLSearchParams(location.search).get('doc');if(p&&docs.includes(p))loadDoc(p,false)});
+  discoverDocs();
+});
+</script>
 </body>
 </html>
