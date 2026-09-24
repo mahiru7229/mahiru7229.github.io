@@ -1,6 +1,11 @@
 (() => {
   "use strict";
 
+  if (window.location.hostname.includes("github.io")) {
+    window.location.replace("https://mcwlauncher.pages.dev/" + window.location.hash);
+    return;
+  }
+
   const REPO = "mahiru7229/mcw-launcher";
   const API = `https://api.github.com/repos/${REPO}/releases?per_page=100`;
   const RELEASES_URL = `https://github.com/${REPO}/releases`;

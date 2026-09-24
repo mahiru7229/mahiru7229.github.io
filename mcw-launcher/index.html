@@ -1,478 +1,142 @@
 <!doctype html>
-<html lang="vi" data-theme="dark">
+<html lang="vi">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url=https://mcwlauncher.pages.dev/">
+  <link rel="canonical" href="https://mcwlauncher.pages.dev/">
+  <meta name="robots" content="noindex, follow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#07090d">
-  <meta name="description" content="MCW Launcher cho Windows và Linux — tải Stable hoặc thử Beta/RC, với instance độc lập, Java tự động, Fabric/Forge, Modrinth và phục hồi an toàn.">
-  <meta name="color-scheme" content="dark light">
-  <meta property="og:title" content="MCW Launcher — One launcher. Infinite worlds.">
-  <meta property="og:description" content="Một launcher Minecraft cho Windows và Linux, với Stable cho sử dụng hằng ngày và Beta/RC cho tester.">
-  <meta property="og:type" content="website">
-  <title>MCW Launcher — One launcher. Infinite worlds.</title>
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
+  <title>Đang chuyển hướng tới MCW Launcher...</title>
+  <script>
+    (function() {
+      var target = "https://mcwlauncher.pages.dev/";
+      var hash = window.location.hash || "";
+      if (hash.indexOf("download") !== -1) {
+        target += "#download";
+      } else if (hash.indexOf("features") !== -1) {
+        target += "#features";
+      } else if (hash.indexOf("workflow") !== -1) {
+        target += "#comparison";
+      } else if (hash) {
+        target += hash;
+      }
+      window.location.replace(target);
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #07090e;
+      --card: #0f1422;
+      --accent: #ff1f44;
+      --accent-glow: rgba(255, 31, 68, 0.35);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 36px 32px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 31, 68, 0.15);
+      border: 1px solid rgba(255, 31, 68, 0.35);
+      color: #ff4d6d;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #ff1f44;
+      box-shadow: 0 0 8px #ff1f44;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    h1 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #ff1f44, #ff5722);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px var(--accent-glow);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 31, 68, 0.5);
+    }
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid rgba(255, 31, 68, 0.2);
+      border-top-color: #ff1f44;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Bỏ qua điều hướng</a>
-
-  <div class="global-grain" aria-hidden="true"></div>
-  <div class="cursor-glow" aria-hidden="true"></div>
-
-  <header class="topbar" data-topbar>
-    <div class="topbar-inner">
-      <a class="brand" href="#home" aria-label="MCW Launcher — Trang chủ">
-        <span class="brand-symbol" aria-hidden="true">
-          <svg viewBox="0 0 28 28"><path d="M5 21V7l9-4 9 4v14l-9 4-9-4Z"/><path d="m5 7 9 5 9-5M14 12v13"/></svg>
-        </span>
-        <span class="brand-wordmark"><strong>MCW</strong><small>launcher</small></span>
-      </a>
-
-      <button class="nav-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="site-nav">
-        <span></span><span></span>
-      </button>
-
-      <nav class="site-nav" id="site-nav" aria-label="Điều hướng chính">
-        <a href="#features" data-scroll-link>Features</a>
-        <a href="#workflow" data-scroll-link>Workflow</a>
-        <a href="#download/release" data-page-link="download">Releases</a>
-        <a href="https://github.com/mahiru7229/mcw-launcher" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
-      </nav>
-
-      <div class="topbar-actions">
-        <button class="theme-toggle" type="button" aria-label="Đổi giao diện sáng tối" title="Đổi giao diện">
-          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.64 5.64l1.42 1.42M16.94 16.94l1.42 1.42M18.36 5.64l-1.42 1.42M7.06 16.94l-1.42 1.42"/><circle cx="12" cy="12" r="4"/></svg>
-          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.4A8.5 8.5 0 0 1 8.6 4 8.5 8.5 0 1 0 20 15.4Z"/></svg>
-        </button>
-        <a class="top-download" id="nav-download" href="#download/release">
-          <span class="download-dot"></span>
-          <span>Download</span>
-          <strong id="nav-version">latest</strong>
-        </a>
-      </div>
+  <div class="card">
+    <div class="spinner"></div>
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Website Migration
     </div>
-  </header>
-
-  <main id="main-content">
-    <!-- HOME -->
-    <div class="page page-home is-active" data-page="home">
-      <section class="hero" id="home">
-        <div class="hero-grid shell">
-          <div class="hero-copy">
-            <div class="hero-kicker reveal">
-              <span class="status-pulse"></span>
-              <span>Open source · Windows + Linux</span>
-              <span class="kicker-divider"></span>
-              <span id="hero-stable-version">checking release…</span>
-            </div>
-
-            <h1 class="hero-title reveal" data-delay="40">
-              <span>ONE LAUNCHER.</span>
-              <span class="hero-title-accent">INFINITE WORLDS.</span>
-            </h1>
-
-            <p class="hero-lead reveal" data-delay="80">
-              MCW biến một mớ phiên bản Minecraft, Java, loader, mods và modpack thành những <strong>world riêng biệt</strong> — dễ tạo, dễ chơi và dễ sửa khi có sự cố.
-            </p>
-
-            <div class="hero-cta reveal" data-delay="120">
-              <a class="cta-main cta-platform magnetic" id="hero-windows-download" href="#download/release">
-                <span class="cta-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
-                </span>
-                <span class="cta-copy"><small>Stable for</small><strong id="hero-windows-version">Windows x64</strong></span>
-                <span class="cta-arrow" aria-hidden="true">↘</span>
-              </a>
-              <a class="cta-main cta-platform cta-linux magnetic" id="hero-linux-download" href="#download/release">
-                <span class="cta-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
-                </span>
-                <span class="cta-copy"><small>Stable for</small><strong id="hero-linux-version">Linux x64</strong></span>
-                <span class="cta-arrow" aria-hidden="true">↘</span>
-              </a>
-            </div>
-
-            <a class="hero-release-link reveal" data-delay="145" href="#download/beta">Looking for Beta or RC? Open the release archive <span aria-hidden="true">↗</span></a>
-
-            <div class="hero-footnote reveal" data-delay="160">
-              <span>Vanilla</span><i></i><span>Fabric</span><i></i><span>Forge</span><i></i><span>Modrinth</span>
-            </div>
-          </div>
-
-          <div class="hero-stage reveal" data-delay="90" aria-label="Mô phỏng giao diện MCW Launcher">
-            <div class="stage-orbit orbit-a" aria-hidden="true"></div>
-            <div class="stage-orbit orbit-b" aria-hidden="true"></div>
-            <div class="stage-label stage-label-a" aria-hidden="true"><span>01</span> INSTANCE</div>
-            <div class="stage-label stage-label-b" aria-hidden="true"><span>02</span> LAUNCH</div>
-
-            <div class="app-window" data-parallax>
-              <div class="app-chrome">
-                <div class="chrome-brand"><span class="chrome-cube">M</span><strong>MCW</strong></div>
-                <div class="chrome-drag"></div>
-                <div class="chrome-buttons"><i></i><i></i><i></i></div>
-              </div>
-              <div class="app-body">
-                <aside class="app-sidebar">
-                  <div class="player-chip">
-                    <div class="player-avatar">M</div>
-                    <div><strong>Player</strong><small>Ready</small></div>
-                  </div>
-                  <div class="side-nav">
-                    <span class="is-current"><b>⌂</b> Home</span>
-                    <span><b>◈</b> Worlds <em>3</em></span>
-                    <span><b>✦</b> Discover</span>
-                    <span><b>↻</b> Tasks <em class="task-count">1</em></span>
-                  </div>
-                  <div class="side-bottom"><span><b>⚙</b> Settings</span></div>
-                </aside>
-
-                <section class="app-content">
-                  <div class="app-head">
-                    <div><small>GOOD EVENING</small><strong>Where to?</strong></div>
-                    <button type="button" tabindex="-1">＋ New world</button>
-                  </div>
-
-                  <div class="world-focus">
-                    <div class="world-art" aria-hidden="true">
-                      <div class="sun-pixel"></div>
-                      <div class="mountain m1"></div>
-                      <div class="mountain m2"></div>
-                      <div class="ground-pixels"></div>
-                    </div>
-                    <div class="world-info">
-                      <div class="world-eyebrow"><span>FORGE</span> 1.20.1</div>
-                      <h2>My Adventure</h2>
-                      <p>42 mods · Java 17 · Played 2h ago</p>
-                      <button type="button" tabindex="-1"><span>▶</span> PLAY</button>
-                    </div>
-                  </div>
-
-                  <div class="world-mini-grid">
-                    <div class="world-mini"><span class="mini-glyph">◇</span><div><strong>Vanilla Survival</strong><small>1.21 · clean</small></div><em>›</em></div>
-                    <div class="world-mini"><span class="mini-glyph">✦</span><div><strong>Create a world</strong><small>Vanilla / Fabric / Forge</small></div><em>＋</em></div>
-                  </div>
-
-                  <div class="task-card">
-                    <div class="task-card-head"><span><i></i> Repairing modpack</span><strong>72%</strong></div>
-                    <div class="task-progress"><b></b></div>
-                    <div class="task-card-meta"><span>18.4 / 25.6 MB</span><span>3.2 MB/s</span><span>7 files left</span></div>
-                  </div>
-                </section>
-              </div>
-            </div>
-
-            <div class="floating-chip chip-stable">
-              <span class="chip-icon">✓</span>
-              <div><small>STABLE CHANNEL</small><strong id="float-stable-version">checking…</strong></div>
-            </div>
-            <a class="floating-chip chip-beta" id="home-beta-link" href="#download/beta">
-              <span class="chip-icon">β</span>
-              <div><small>PREVIEW CHANNEL</small><strong id="float-beta-version">Beta / RC</strong></div>
-            </a>
-          </div>
-        </div>
-
-        <div class="hero-marquee" aria-hidden="true">
-          <div class="marquee-track">
-            <span>INSTANCE ISOLATION</span><b>◆</b><span>AUTO JAVA</span><b>◆</b><span>FABRIC + FORGE</span><b>◆</b><span>MODRINTH READY</span><b>◆</b><span>SAFE REPAIR</span><b>◆</b><span>CLEAR PROGRESS</span><b>◆</b>
-            <span>INSTANCE ISOLATION</span><b>◆</b><span>AUTO JAVA</span><b>◆</b><span>FABRIC + FORGE</span><b>◆</b><span>MODRINTH READY</span><b>◆</b><span>SAFE REPAIR</span><b>◆</b><span>CLEAR PROGRESS</span><b>◆</b>
-          </div>
-        </div>
-      </section>
-
-      <section class="manifesto shell" id="features">
-        <div class="manifesto-index reveal">01 / WHY MCW</div>
-        <div class="manifesto-copy">
-          <p class="manifesto-big reveal">Minecraft modded rất vui.</p>
-          <p class="manifesto-big muted reveal">Quản lý nó thì không.</p>
-          <p class="manifesto-small reveal">MCW được xây quanh một ý tưởng đơn giản: launcher nên gánh phần lộn xộn để bạn tập trung vào việc chơi.</p>
-        </div>
-      </section>
-
-      <section class="story shell" id="workflow">
-        <aside class="story-aside">
-          <span class="story-index">02 / THE SYSTEM</span>
-          <h2>Một flow.<br>Không phải<br>mười công cụ.</h2>
-          <p>Từ world mới đến một modpack nặng, mọi thứ đi qua cùng một hệ thống.</p>
-          <div class="story-rail" aria-hidden="true"><b></b></div>
-        </aside>
-
-        <div class="story-stack">
-          <article class="story-card story-card-world reveal" data-story-step="1">
-            <div class="story-card-number">01</div>
-            <div class="story-card-copy">
-              <span>CREATE</span>
-              <h3>Worlds, not folders.</h3>
-              <p>Mỗi instance có game directory, save, RAM, loader, Java và mods của riêng nó. Bạn có thể clone, import hoặc thử nghiệm mà không chạm nhầm world khác.</p>
-            </div>
-            <div class="story-visual world-deck" aria-hidden="true">
-              <div class="deck-card deck-3"><span>VANILLA</span><b>Clean Build</b><small>1.21</small></div>
-              <div class="deck-card deck-2"><span>FABRIC</span><b>Performance</b><small>18 mods</small></div>
-              <div class="deck-card deck-1"><span>FORGE</span><b>My Adventure</b><small>42 mods</small></div>
-            </div>
-          </article>
-
-          <article class="story-card story-card-runtime reveal" data-story-step="2">
-            <div class="story-card-number">02</div>
-            <div class="story-card-copy">
-              <span>RESOLVE</span>
-              <h3>Java becomes invisible.</h3>
-              <p>MCW tự chuẩn bị runtime phù hợp cho từng phiên bản và giữ nó theo instance. Không cần nhớ Java 8, 17 hay 21 thuộc về world nào.</p>
-            </div>
-            <div class="story-visual runtime-visual" aria-hidden="true">
-              <div class="runtime-ring r1"></div><div class="runtime-ring r2"></div><div class="runtime-ring r3"></div>
-              <div class="runtime-core"><small>RUNTIME</small><strong>AUTO</strong><span>resolved</span></div>
-              <div class="runtime-node n1">J8</div><div class="runtime-node n2">J17</div><div class="runtime-node n3">J21</div>
-            </div>
-          </article>
-
-          <article class="story-card story-card-mods reveal" data-story-step="3">
-            <div class="story-card-number">03</div>
-            <div class="story-card-copy">
-              <span>MOD</span>
-              <h3>Install without the scavenger hunt.</h3>
-              <p>Giữ mods và modpacks trong đúng ngữ cảnh của world. Tìm kiếm, cài, cập nhật và kiểm tra dependency theo flow thay vì nhảy qua nhiều folder và website.</p>
-            </div>
-            <div class="story-visual mods-visual" aria-hidden="true">
-              <div class="mods-search"><span>⌕</span><b>Search Modrinth</b><kbd>⌘ K</kbd></div>
-              <div class="mod-row"><i>⚡</i><div><b>Sodium</b><small>Performance</small></div><span>Installed</span></div>
-              <div class="mod-row"><i>◈</i><div><b>Fabric API</b><small>Library</small></div><span>Update</span></div>
-              <div class="mod-row"><i>✦</i><div><b>Iris Shaders</b><small>Visuals</small></div><span>Add</span></div>
-            </div>
-          </article>
-
-          <article class="story-card story-card-repair reveal" data-story-step="4">
-            <div class="story-card-number">04</div>
-            <div class="story-card-copy">
-              <span>RECOVER</span>
-              <h3>Failure has a way back.</h3>
-              <p>Download có trạng thái rõ ràng; repair chỉ lấy lại file cần thiết; checksum, backup và rollback tạo đường lui khi update không diễn ra như mong đợi.</p>
-            </div>
-            <div class="story-visual repair-visual" aria-hidden="true">
-              <div class="repair-head"><span>Integrity check</span><strong>24 / 24</strong></div>
-              <div class="repair-bars"><i style="--w:100%"></i><i style="--w:100%"></i><i style="--w:100%"></i><i style="--w:72%"></i></div>
-              <div class="repair-log"><span><b>✓</b> manifest verified</span><span><b>✓</b> backup created</span><span><b>↻</b> downloading 7 files</span></div>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="control-section">
-        <div class="shell control-grid">
-          <div class="control-copy reveal">
-            <span class="section-index">03 / CONTROL</span>
-            <h2>Không spinner mơ hồ.<br><em>Bạn biết chính xác launcher đang làm gì.</em></h2>
-            <p>Mỗi task cho biết trạng thái, file, dung lượng, tốc độ và phần còn lại. Khi có lỗi, thông tin cần để hiểu lỗi nằm ngay trong cùng flow.</p>
-            <ul>
-              <li><span>01</span> Download queue rõ ràng</li>
-              <li><span>02</span> Verify bằng checksum</li>
-              <li><span>03</span> Retry / repair theo file</li>
-            </ul>
-          </div>
-
-          <div class="control-panel reveal" data-delay="80">
-            <div class="panel-header"><span>ACTIVITY</span><small>3 tasks</small></div>
-            <div class="panel-task is-running">
-              <div class="panel-task-icon">↻</div>
-              <div class="panel-task-main"><strong>Updating My Adventure</strong><small>Downloading libraries · 8.7 MB/s</small><i><b style="--progress:86%"></b></i></div>
-              <span>86%</span>
-            </div>
-            <div class="panel-task is-done">
-              <div class="panel-task-icon">✓</div>
-              <div class="panel-task-main"><strong>Java 17 runtime</strong><small>Verified · 312 MB</small></div>
-              <span>done</span>
-            </div>
-            <div class="panel-task is-done">
-              <div class="panel-task-icon">✓</div>
-              <div class="panel-task-main"><strong>Forge 47.4.0</strong><small>Installed successfully</small></div>
-              <span>done</span>
-            </div>
-            <div class="panel-footer"><span>Network</span><strong>8.7 MB/s</strong><span>Disk</span><strong>24 MB/s</strong></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="comparison shell">
-        <div class="comparison-head reveal">
-          <span class="section-index">04 / LESS FRICTION</span>
-          <h2>Giảm việc phải nhớ.<br>Tăng thời gian được chơi.</h2>
-        </div>
-
-        <div class="comparison-table reveal">
-          <div class="compare-row compare-title"><div>Việc cần làm</div><div class="old-way">Cách thủ công</div><div class="mcw-way"><span class="compare-logo">M</span> MCW</div></div>
-          <div class="compare-row"><div>Chọn đúng Java</div><div class="old-way">Tự cài & cấu hình</div><div class="mcw-way"><b>✓</b> Tự resolve theo world</div></div>
-          <div class="compare-row"><div>Tách mods / saves</div><div class="old-way">Quản lý folder</div><div class="mcw-way"><b>✓</b> Instance isolation</div></div>
-          <div class="compare-row"><div>Loader</div><div class="old-way">Installer riêng</div><div class="mcw-way"><b>✓</b> Vanilla / Fabric / Forge</div></div>
-          <div class="compare-row"><div>Update / lỗi file</div><div class="old-way">Tìm và tải lại</div><div class="mcw-way"><b>✓</b> Verify & repair</div></div>
-        </div>
-      </section>
-
-      <section class="release-preview shell">
-        <div class="release-preview-copy reveal">
-          <span class="section-index">05 / SHIP CHANNELS</span>
-          <h2>Stable khi bạn muốn chơi.<br>Preview khi bạn muốn thử.</h2>
-          <p>Website đọc release trực tiếp từ GitHub. Khi một bản mới được publish, nó xuất hiện tại đây mà không cần sửa HTML thủ công.</p>
-          <a class="text-link" href="#download/release">View release archive <span>↗</span></a>
-        </div>
-
-        <div class="channel-stack reveal" data-delay="80">
-          <a class="channel-card channel-stable" href="#download/release">
-            <div class="channel-card-top"><span><i></i> STABLE</span><small>recommended</small></div>
-            <strong id="quick-stable-version">Checking…</strong>
-            <p>Bản phát hành dành cho sử dụng hàng ngày.</p>
-            <div class="platform-pills" aria-label="Nền tảng được hỗ trợ"><span>⊞ Windows x64</span><span>⌁ Linux x64</span></div>
-            <div class="channel-card-bottom"><span id="stable-count">— releases</span><b>Download ↘</b></div>
-          </a>
-          <a class="channel-card channel-beta" href="#download/beta">
-            <div class="channel-card-top"><span><i></i> BETA / RC</span><small>for testing</small></div>
-            <strong id="quick-beta-version">Checking…</strong>
-            <p>Tính năng mới sớm hơn, đổi lại mức ổn định thấp hơn.</p>
-            <div class="platform-pills" aria-label="Nền tảng được hỗ trợ"><span>⊞ Windows x64</span><span>⌁ Linux x64</span></div>
-            <div class="channel-card-bottom"><span id="beta-count">— previews</span><b>Explore ↗</b></div>
-          </a>
-        </div>
-      </section>
-
-      <section class="final-cta">
-        <div class="final-cta-grid shell">
-          <div class="final-cta-copy reveal">
-            <span>READY WHEN YOU ARE</span>
-            <h2>Pick a world.<br><em>Press play.</em></h2>
-          </div>
-          <div class="final-cta-actions reveal" data-delay="80">
-            <a class="mega-download magnetic" href="#download/release">
-              <span>CHOOSE YOUR BUILD</span>
-              <strong id="footer-stable-version">Windows + Linux · Latest stable</strong>
-              <i>↘</i>
-            </a>
-            <p>Windows 10/11 x64 · Linux x64<br>Stable · Beta · Release Candidate</p>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <!-- DOWNLOADS -->
-    <div class="page page-download" data-page="download" hidden>
-      <section class="downloads-hero shell">
-        <a class="back-home" href="#home"><span>←</span> Back to product</a>
-        <div class="downloads-title-row">
-          <div>
-            <span class="section-index">RELEASE ARCHIVE</span>
-            <h1>Choose your build.</h1>
-          </div>
-          <div class="downloads-status" id="data-status"><i></i><span>Connecting to GitHub…</span></div>
-        </div>
-        <p class="downloads-lead">Chọn kênh phát hành trước, sau đó tải đúng gói Windows hoặc Linux. Stable dành cho sử dụng thông thường; Beta và RC dành cho tester muốn thử thay đổi mới.</p>
-      </section>
-
-      <section class="release-browser shell" id="release-browser">
-        <aside class="release-sidebar">
-          <div class="channel-tabs" role="tablist" aria-label="Kênh phát hành">
-            <button class="channel-tab is-active" type="button" data-channel="release" role="tab">
-              <span><i class="stable-dot"></i> Stable</span><b id="sidebar-stable-count">—</b>
-            </button>
-            <button class="channel-tab" type="button" data-channel="beta" role="tab">
-              <span><i class="beta-dot"></i> Beta / RC</span><b id="sidebar-beta-count">—</b>
-            </button>
-          </div>
-
-          <div class="release-search-wrap">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-            <input id="release-search" type="search" autocomplete="off" placeholder="Search versions…" aria-label="Tìm phiên bản">
-            <kbd>/</kbd>
-          </div>
-
-          <div class="release-list" id="release-list" aria-live="polite"></div>
-          <div class="empty-state" id="empty-state" hidden>
-            <span>⌕</span><strong>Không tìm thấy phiên bản</strong><p>Thử một tag hoặc tên release khác.</p>
-          </div>
-
-          <button class="refresh-button" id="refresh-releases" type="button"><span>↻</span> Refresh from GitHub</button>
-        </aside>
-
-        <article class="release-detail" id="release-detail">
-          <div class="detail-placeholder" id="detail-placeholder">
-            <div class="placeholder-glyph">M</div>
-            <strong>Select a release</strong>
-            <p>Chọn một phiên bản bên trái để xem release notes, file tải và checksum.</p>
-          </div>
-
-          <div class="detail-content" id="detail-content" hidden>
-            <div class="detail-topline">
-              <span class="detail-channel" id="detail-channel">STABLE</span>
-              <div class="detail-actions">
-                <button id="copy-release-link" type="button" title="Sao chép liên kết"><span>⧉</span> Copy link</button>
-                <a id="detail-github" href="#" target="_blank" rel="noreferrer">GitHub ↗</a>
-              </div>
-            </div>
-
-            <div class="detail-heading">
-              <div>
-                <span class="detail-tag" id="detail-tag">v0.0.0</span>
-                <h2 id="detail-title">Release title</h2>
-              </div>
-              <span class="latest-pill" id="detail-latest" hidden>Latest</span>
-            </div>
-
-            <div class="detail-meta">
-              <span><small>Published</small><strong id="detail-date">—</strong></span>
-              <span><small>Available builds</small><strong id="detail-build-count">—</strong></span>
-              <span><small>Platforms</small><strong>Windows + Linux</strong></span>
-            </div>
-
-            <div class="download-section-heading">
-              <div><span>PLATFORM BUILDS</span><strong>Pick your operating system.</strong></div>
-              <small>Every package is selected by its exact release asset name.</small>
-            </div>
-
-            <div class="download-packages">
-              <section class="platform-package platform-windows" data-platform-package="windows">
-                <div class="package-topline"><span class="platform-mark">⊞</span><small>WINDOWS 10/11 · X64</small></div>
-                <strong id="windows-asset-name">Checking package…</strong>
-                <span id="windows-asset-message">Reading GitHub Release assets</span>
-                <a class="package-download" id="windows-download" href="#" target="_blank" rel="noreferrer"><span>Download Windows</span><b>↘</b></a>
-                <div class="checksum-row" id="windows-checksum" hidden></div>
-              </section>
-
-              <section class="platform-package platform-linux" data-platform-package="linux">
-                <div class="package-topline"><span class="platform-mark">⌁</span><small>LINUX · X64</small></div>
-                <strong id="linux-asset-name">Checking package…</strong>
-                <span id="linux-asset-message">Reading GitHub Release assets</span>
-                <a class="package-download" id="linux-download" href="#" target="_blank" rel="noreferrer"><span>Download Linux</span><b>↘</b></a>
-                <div class="checksum-row" id="linux-checksum" hidden></div>
-              </section>
-            </div>
-
-            <section class="release-notes-section">
-              <div class="notes-heading"><span>RELEASE NOTES</span><i></i></div>
-              <div class="release-notes" id="release-notes"></div>
-            </section>
-          </div>
-        </article>
-      </section>
-
-      <div class="beta-warning shell" id="beta-warning" hidden>
-        <span>β</span>
-        <div><strong>Preview builds can break things.</strong><p>Beta và Release Candidate có thể chứa thay đổi chưa ổn định. Hãy backup world quan trọng trước khi thử nghiệm.</p></div>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="shell footer-grid">
-      <div class="footer-brand">
-        <a class="brand" href="#home"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 28 28"><path d="M5 21V7l9-4 9 4v14l-9 4-9-4Z"/><path d="m5 7 9 5 9-5M14 12v13"/></svg></span><span class="brand-wordmark"><strong>MCW</strong><small>launcher</small></span></a>
-        <p>Minecraft, organized.</p>
-      </div>
-      <div class="footer-links">
-        <div><small>PRODUCT</small><a href="#features">Features</a><a href="#workflow">Workflow</a><a href="#download/release">Releases</a></div>
-        <div><small>PROJECT</small><a href="https://github.com/mahiru7229/mcw-launcher" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://github.com/mahiru7229/mcw-launcher/issues" target="_blank" rel="noreferrer">Issues ↗</a></div>
-      </div>
-      <div class="footer-meta"><span>© <b id="current-year"></b> MCW Launcher</span><span>Not affiliated with Mojang or Microsoft.</span></div>
-    </div>
-  </footer>
-
-  <div class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+    <h1>Đang chuyển hướng sang trang chủ mới</h1>
+    <p>MCW Launcher đã chuyển sang cổng thông tin thế hệ mới tại Cloudflare Edge CDN. Bạn sẽ được tự động chuyển hướng ngay bây giờ.</p>
+    <a class="btn" href="https://mcwlauncher.pages.dev/">
+      Truy cập ngay ➔
+    </a>
+  </div>
 </body>
 </html>
