@@ -44,6 +44,7 @@ Cột bên phải sẽ tự động quét toàn bộ tiêu đề (H1, H2, H3, H4
 Sử dụng ô tìm kiếm phía trên danh sách tài liệu để lọc nhanh bài viết theo tên file hoặc tiêu đề.
 
 ### 4. Tùy chỉnh chế độ đọc
+
 Thanh công cụ phía trên bài viết hỗ trợ:
 - Điều chỉnh kích thước chữ (**A-** / **A+**).
 - Thay đổi chủ đề đọc: **Cyber Dark**, **Midnight Navy**, **Sepia Ấm**, hoặc **Light Sáng**.

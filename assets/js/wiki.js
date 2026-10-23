@@ -180,6 +180,10 @@ class MahiruStaticWiki {
         if (badge) {
             badge.textContent = `${this.allDocuments.length} tài liệu`;
         }
+        const mobileBadge = document.getElementById('mobile-doc-count');
+        if (mobileBadge) {
+            mobileBadge.textContent = this.allDocuments.length;
+        }
     }
 
     // Render Folder Tree (Accordion Navigation)
@@ -264,6 +268,7 @@ class MahiruStaticWiki {
     async loadDocument(docPath, pushState = true) {
         if (!docPath) return;
 
+        this.closeMobileDrawers();
         this.activeDocPath = docPath;
         this.renderFolderTree();
 
@@ -338,11 +343,10 @@ class MahiruStaticWiki {
         let headings = [];
 
         try {
-            const { modifiedBody, extractedHeadings } = this.extractAndInjectHeadings(body);
-            headings = extractedHeadings;
+            // 1. Transform GitHub callout alerts (NOTE, TIP, etc.)
+            const alertEnhancedBody = this.transformGitHubAlerts(body);
 
-            const alertEnhancedBody = this.transformGitHubAlerts(modifiedBody);
-
+            // 2. Parse with Marked.js
             if (window.marked) {
                 marked.setOptions({
                     gfm: true,
@@ -354,6 +358,7 @@ class MahiruStaticWiki {
                 processedHtml = `<pre>${this.escapeHtml(body)}</pre>`;
             }
 
+            // 3. Sanitize with DOMPurify
             if (window.DOMPurify) {
                 processedHtml = DOMPurify.sanitize(processedHtml, {
                     ADD_TAGS: ['iframe'],
@@ -367,6 +372,9 @@ class MahiruStaticWiki {
 
         if (contentContainer) {
             contentContainer.innerHTML = processedHtml;
+
+            // 4. Extract headings and assign slug IDs directly in DOM (guarantees zero breakage for markdown syntax)
+            headings = this.processHeadingsInDOM(contentContainer);
 
             // Enhancements
             this.enhanceCodeBlocks(contentContainer);
@@ -416,13 +424,13 @@ class MahiruStaticWiki {
         return { meta, body };
     }
 
-    extractAndInjectHeadings(markdownText) {
+    processHeadingsInDOM(container) {
         const headings = [];
         const headingCounts = {};
+        const elements = container.querySelectorAll('h1, h2, h3, h4');
 
-        const modifiedBody = markdownText.replace(/^(#{1,4})\s+(.+)$/gm, (match, hashes, text) => {
-            const level = hashes.length;
-            const cleanText = text.replace(/[*_~`]/g, '').trim();
+        elements.forEach((el, index) => {
+            const cleanText = el.textContent.replace(/[*_~`]/g, '').trim();
             let slug = cleanText
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '')
@@ -430,7 +438,7 @@ class MahiruStaticWiki {
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/(^-|-$)/g, '');
 
-            if (!slug) slug = `section-${headings.length + 1}`;
+            if (!slug) slug = `section-${index + 1}`;
 
             if (headingCounts[slug]) {
                 headingCounts[slug]++;
@@ -439,11 +447,12 @@ class MahiruStaticWiki {
                 headingCounts[slug] = 1;
             }
 
+            el.id = slug;
+            const level = parseInt(el.tagName.substring(1), 10);
             headings.push({ level, text: cleanText, id: slug });
-            return `<h${level} id="${slug}">${cleanText}</h${level}>`;
         });
 
-        return { modifiedBody, extractedHeadings: headings };
+        return headings;
     }
 
     transformGitHubAlerts(text) {
@@ -455,26 +464,19 @@ class MahiruStaticWiki {
             CAUTION: { icon: 'fa-solid fa-skull-crossbones', title: 'Lưu ý khẩn cấp', class: 'callout-caution' }
         };
 
-        const regex = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\n((?:>.*(?:\n|$))*)/gim;
+        const regex = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*\r?\n((?:>[^\r\n]*(?:\r?\n|$))*)/gim;
 
         return text.replace(regex, (match, type, content) => {
             const upperType = type.toUpperCase();
             const config = alertTypes[upperType] || alertTypes.NOTE;
             const cleanContent = content
-                .split('\n')
+                .split(/\r?\n/)
                 .map(line => line.replace(/^>\s?/, ''))
                 .join('\n')
                 .trim();
 
-            return `\n<div class="wiki-callout ${config.class}">
-                <div class="callout-head">
-                    <i class="${config.icon}"></i>
-                    <span>${config.title}</span>
-                </div>
-                <div class="callout-content">
-                    \n${cleanContent}\n
-                </div>
-            </div>\n`;
+            // Zero leading spaces so Marked will NEVER treat closing tags as indented code blocks
+            return `\n\n<div class="wiki-callout ${config.class}">\n<div class="callout-head"><i class="${config.icon}"></i> <span>${config.title}</span></div>\n<div class="callout-content">\n\n${cleanContent}\n\n</div>\n</div>\n\n`;
         });
     }
 
@@ -654,6 +656,7 @@ class MahiruStaticWiki {
         container.querySelectorAll('.toc-link').forEach(link => {
             link.addEventListener('click', e => {
                 e.preventDefault();
+                this.closeMobileDrawers();
                 const target = document.getElementById(link.dataset.target);
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -701,7 +704,50 @@ class MahiruStaticWiki {
         this.scrollSpyHandler();
     }
 
+    closeMobileDrawers() {
+        document.getElementById('wiki-sidebar-tree')?.classList.remove('mobile-open');
+        document.getElementById('wiki-toc-sidebar')?.classList.remove('mobile-open');
+        document.getElementById('wiki-mobile-backdrop')?.classList.remove('active');
+    }
+
     bindEvents() {
+        // Mobile Drawer Controls
+        const btnOpenTree = document.getElementById('btn-open-mobile-tree');
+        const btnCloseTree = document.getElementById('btn-close-mobile-tree');
+        const btnOpenTOC = document.getElementById('btn-open-mobile-toc');
+        const btnCloseTOC = document.getElementById('btn-close-mobile-toc');
+        const backdrop = document.getElementById('wiki-mobile-backdrop');
+        const sidebarTree = document.getElementById('wiki-sidebar-tree');
+        const sidebarTOC = document.getElementById('wiki-toc-sidebar');
+
+        const openTreeDrawer = () => {
+            this.closeMobileDrawers();
+            sidebarTree?.classList.add('mobile-open');
+            backdrop?.classList.add('active');
+        };
+
+        const openTOCDrawer = () => {
+            this.closeMobileDrawers();
+            sidebarTOC?.classList.add('mobile-open');
+            backdrop?.classList.add('active');
+        };
+
+        btnOpenTree?.addEventListener('click', openTreeDrawer);
+        btnCloseTree?.addEventListener('click', () => this.closeMobileDrawers());
+        btnOpenTOC?.addEventListener('click', openTOCDrawer);
+        btnCloseTOC?.addEventListener('click', () => this.closeMobileDrawers());
+        backdrop?.addEventListener('click', () => this.closeMobileDrawers());
+
+        // Desktop Toggle Sidebar & TOC
+        const layoutGrid = document.getElementById('wiki-layout-grid');
+        document.getElementById('btn-toggle-sidebar')?.addEventListener('click', () => {
+            layoutGrid?.classList.toggle('hide-sidebar');
+        });
+
+        document.getElementById('btn-toggle-toc')?.addEventListener('click', () => {
+            layoutGrid?.classList.toggle('hide-toc');
+        });
+
         // Tree category collapse / expand toggle
         const treeContainer = document.getElementById('wiki-tree-container');
         if (treeContainer) {

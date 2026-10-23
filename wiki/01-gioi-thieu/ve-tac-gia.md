@@ -25,11 +25,13 @@ Mình là một sinh viên ngành Kỹ thuật tại **Trường Đại học B�
 ## 🛠️ Kỹ năng & Công nghệ
 
 ### Ngôn ngữ lập trình
+
 - **Python:** Xây dựng backend, tooling, headless daemon, IPC JSON-RPC 2.0, tự động hóa tác vụ.
 - **C / C++:** Lập trình hướng đối tượng, cấu trúc dữ liệu và giải thuật, game development 2D.
 - **Web Frontend:** HTML5, CSS3 (Glassmorphism, Responsive), JavaScript ES6+.
 
 ### Lĩnh vực & Sở thích
+
 - **Minecraft Ecosystem:** Modding với Fabric / Forge, tối ưu hóa JVM flags, cấu hình Modpack.
 - **Gaming:** Minecraft, VALORANT, Genshin Impact, osu!, Terraria.
 
