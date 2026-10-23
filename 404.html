@@ -9,6 +9,8 @@
       var path = window.location.pathname;
       if (path.indexOf("/mcw-launcher") !== -1) {
         window.location.replace("https://mcwlauncher.pages.dev/");
+      } else if (path.indexOf("/wiki") !== -1) {
+        window.location.replace("/#wiki" + (window.location.search || ''));
       } else {
         window.location.replace("/");
       }
@@ -28,11 +30,11 @@
       text-align: center;
       padding: 20px;
     }
-    a { color: #ff4d6d; text-decoration: underline; }
+    a { color: #60a5fa; text-decoration: underline; }
   </style>
 </head>
 <body>
   <h2>Đang chuyển hướng...</h2>
-  <p>Nếu không tự chuyển, vui lòng <a href="/">về trang chủ</a> hoặc mở <a href="https://mcwlauncher.pages.dev/">MCW Launcher</a>.</p>
+  <p>Nếu không tự chuyển, vui lòng <a href="/">về trang chủ</a> hoặc mở <a href="/#wiki">Wiki Markdown Reader</a>.</p>
 </body>
 </html>

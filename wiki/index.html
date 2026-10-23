@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Đang mở Mahiru Wiki...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>
+    (function() {
+      var search = window.location.search || '';
+      var hash = window.location.hash || '';
+      var docParam = '';
+      if (search.indexOf('doc=') !== -1) {
+        docParam = '?' + search.replace(/^\?/, '');
+      } else if (hash.indexOf('doc=') !== -1) {
+        docParam = '?' + hash.split('?')[1];
+      }
+      window.location.replace('../index.html#wiki' + docParam);
+    })();
+  </script>
+  <style>
+    body {
+      background: #090d16;
+      color: #94a3b8;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    a { color: #60a5fa; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h2>Đang chuyển đến Mahiru Wiki...</h2>
+  <p>Nếu không tự động chuyển hướng, vui lòng <a href="../index.html#wiki">bấm vào đây để mở Wiki</a>.</p>
+</body>
+</html>

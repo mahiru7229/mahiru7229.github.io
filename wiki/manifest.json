@@ -1,0 +1,125 @@
+{
+  "name": "Mahiru Wiki",
+  "basePath": "./wiki",
+  "generatedAt": "2026-10-23",
+  "categories": [
+    {
+      "id": "01-gioi-thieu",
+      "name": "01. Giới thiệu",
+      "icon": "fa-solid fa-compass",
+      "items": [
+        {
+          "id": "01-gioi-thieu/chao-mung.md",
+          "title": "Chào mừng đến với Mahiru Wiki",
+          "path": "01-gioi-thieu/chao-mung.md",
+          "order": 1,
+          "readTime": 3,
+          "wordCount": 475,
+          "description": "Trang tài liệu và ghi chép kiến thức cá nhân của Huỳnh Ngọc Hoàng Tùng (@mahiru7229)."
+        },
+        {
+          "id": "01-gioi-thieu/ve-tac-gia.md",
+          "title": "Về tác giả Huỳnh Ngọc Hoàng Tùng",
+          "path": "01-gioi-thieu/ve-tac-gia.md",
+          "order": 2,
+          "readTime": 2,
+          "wordCount": 307,
+          "description": "Thông tin giới thiệu về Huỳnh Ngọc Hoàng Tùng (@mahiru7229) — sinh viên, lập trình viên và người sáng tạo MCW Launcher."
+        }
+      ]
+    },
+    {
+      "id": "02-du-an",
+      "name": "02. Dự án & Phần mềm",
+      "icon": "fa-solid fa-cubes",
+      "items": [
+        {
+          "id": "02-du-an/mcw-launcher.md",
+          "title": "MCW Launcher — Trình khởi chạy Minecraft hiện đại",
+          "path": "02-du-an/mcw-launcher.md",
+          "order": 1,
+          "readTime": 2,
+          "wordCount": 277,
+          "description": "Tổng quan về MCW Launcher, tính năng quản lý modpack và quy trình khởi chạy game."
+        },
+        {
+          "id": "02-du-an/mcw-core-architecture.md",
+          "title": "Kiến trúc kỹ thuật MCW Launcher Core",
+          "path": "02-du-an/mcw-core-architecture.md",
+          "order": 2,
+          "readTime": 2,
+          "wordCount": 221,
+          "description": "Phân tích kiến trúc Headless Core của MCW Launcher, giao thức IPC và module công khai."
+        },
+        {
+          "id": "02-du-an/game-terraria.md",
+          "title": "Nhật ký phát triển Game 2D Sandbox (C++)",
+          "path": "02-du-an/game-terraria.md",
+          "order": 3,
+          "readTime": 2,
+          "wordCount": 285,
+          "description": "Quá trình xây dựng tựa game đầu tay lấy cảm hứng từ Terraria với C++ và cơ chế vật lý 2D."
+        }
+      ]
+    },
+    {
+      "id": "03-lap-trinh-ky-thuat",
+      "name": "03. Lập trình & Kỹ thuật",
+      "icon": "fa-solid fa-code",
+      "items": [
+        {
+          "id": "03-lap-trinh-ky-thuat/python-tips.md",
+          "title": "Kinh nghiệm thực chiến với Python",
+          "path": "03-lap-trinh-ky-thuat/python-tips.md",
+          "order": 1,
+          "readTime": 1,
+          "wordCount": 148,
+          "description": "Tổng hợp những kinh nghiệm thực tiễn khi lập trình dự án Python quy mô vừa và lớn."
+        },
+        {
+          "id": "03-lap-trinh-ky-thuat/cpp-modern.md",
+          "title": "Các tính năng hiện đại trong C++ (Modern C++)",
+          "path": "03-lap-trinh-ky-thuat/cpp-modern.md",
+          "order": 2,
+          "readTime": 1,
+          "wordCount": 158,
+          "description": "Giới thiệu con trỏ thông minh (Smart Pointers), RAII và auto keyword trong C++ hiện đại."
+        },
+        {
+          "id": "03-lap-trinh-ky-thuat/cu-phap-markdown.md",
+          "title": "Showcase đầy đủ cú pháp Markdown hỗ trợ",
+          "path": "03-lap-trinh-ky-thuat/cu-phap-markdown.md",
+          "order": 3,
+          "readTime": 2,
+          "wordCount": 341,
+          "description": "Showcase toàn bộ khả năng hiển thị của Wiki bao gồm Mermaid Diagrams, Toán KaTeX, Alerts và Highlight code."
+        }
+      ]
+    },
+    {
+      "id": "04-minecraft-modding",
+      "name": "04. Minecraft Modding",
+      "icon": "fa-solid fa-cube",
+      "items": [
+        {
+          "id": "04-minecraft-modding/huong-dan-fabric.md",
+          "title": "Hướng dẫn cơ bản lập trình Mod với Fabric Loader",
+          "path": "04-minecraft-modding/huong-dan-fabric.md",
+          "order": 1,
+          "readTime": 1,
+          "wordCount": 142,
+          "description": "Hướng dẫn thiết lập môi trường lập trình mod Minecraft sử dụng Fabric Example Mod và Gradle."
+        },
+        {
+          "id": "04-minecraft-modding/toi-uu-modpack.md",
+          "title": "Tối ưu hóa hiệu năng Minecraft & Cấu hình JVM Flags",
+          "path": "04-minecraft-modding/toi-uu-modpack.md",
+          "order": 2,
+          "readTime": 2,
+          "wordCount": 236,
+          "description": "Tổng hợp bộ mod tăng FPS vượt trội và các cờ tối ưu bộ nhớ Java Virtual Machine."
+        }
+      ]
+    }
+  ]
+}
