@@ -61,6 +61,14 @@ class MahiruStaticWiki {
                         { "id": "04-minecraft-modding/huong-dan-fabric.md", "title": "Hướng dẫn cơ bản lập trình Mod với Fabric", "path": "04-minecraft-modding/huong-dan-fabric.md", "readTime": 3 },
                         { "id": "04-minecraft-modding/toi-uu-modpack.md", "title": "Tối ưu hóa hiệu năng Minecraft & JVM", "path": "04-minecraft-modding/toi-uu-modpack.md", "readTime": 3 }
                     ]
+                },
+                {
+                    "id": "05-pbl-on-tap",
+                    "name": "05. PBL Ôn tập",
+                    "icon": "fa-solid fa-graduation-cap",
+                    "items": [
+                        { "id": "05-pbl-on-tap/cau-hoi-bai-1-khoa-dtvt.md", "title": "PBL 1 - Tổng hợp câu hỏi & đáp án Bài 1 (Khoa ĐTVT)", "path": "05-pbl-on-tap/cau-hoi-bai-1-khoa-dtvt.md", "readTime": 4 }
+                    ]
                 }
             ]
         };

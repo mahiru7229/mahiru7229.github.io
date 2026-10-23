@@ -120,6 +120,22 @@
           "description": "Tổng hợp bộ mod tăng FPS vượt trội và các cờ tối ưu bộ nhớ Java Virtual Machine."
         }
       ]
+    },
+    {
+      "id": "05-pbl-on-tap",
+      "name": "05. PBL Ôn tập",
+      "icon": "fa-solid fa-graduation-cap",
+      "items": [
+        {
+          "id": "05-pbl-on-tap/cau-hoi-bai-1-khoa-dtvt.md",
+          "title": "PBL 1 - Tổng hợp câu hỏi & đáp án Bài 1 (Khoa ĐTVT)",
+          "path": "05-pbl-on-tap/cau-hoi-bai-1-khoa-dtvt.md",
+          "order": 1,
+          "readTime": 5,
+          "wordCount": 811,
+          "description": "Tổng hợp 6 câu hỏi và đáp án chi tiết Bài 1 - Giới thiệu khoa & chương trình đào tạo học phần PBL 1 Nhập môn ngành."
+        }
+      ]
     }
   ]
 }

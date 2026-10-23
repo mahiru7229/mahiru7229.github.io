@@ -16,7 +16,8 @@ CATEGORY_TITLES = {
     "01-gioi-thieu": "01. Giới thiệu",
     "02-du-an": "02. Dự án & Phần mềm",
     "03-lap-trinh-ky-thuat": "03. Lập trình & Kỹ thuật",
-    "04-minecraft-modding": "04. Minecraft Modding"
+    "04-minecraft-modding": "04. Minecraft Modding",
+    "05-pbl-on-tap": "05. PBL Ôn tập"
 }
 
 CATEGORY_ICONS = {
@@ -24,6 +25,7 @@ CATEGORY_ICONS = {
     "du-an": "fa-solid fa-cubes",
     "lap-trinh": "fa-solid fa-code",
     "minecraft": "fa-solid fa-cube",
+    "pbl": "fa-solid fa-graduation-cap",
     "default": "fa-solid fa-folder"
 }
 
